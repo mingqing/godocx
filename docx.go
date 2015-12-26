@@ -54,8 +54,10 @@ func (d *DocxFile) CombineTo(docxParentDir, saveDir string) error {
 	defer fw.Close()
 	//docxFile := zip.NewWriter(fw)
 
-	filepath.Walk(docxParentDir, func(pth string, info os.FileInfo, err error) error {
-		fmt.Println("pth:", strings.Replace(pth, docxParentDir, "", -1))
+	filepath.Walk(docxParentDir, func(filePath string, info os.FileInfo, err error) error {
+		formatPath := strings.Replace(filePath, strings.TrimSpace(path.Join(docxParentDir, " ")), "", -1)
+		fmt.Println("path:", formatPath)
+
 		return nil
 	})
 
