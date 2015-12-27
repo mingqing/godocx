@@ -2,7 +2,7 @@ package godocx
 
 import (
 	"archive/zip"
-	"fmt"
+	//"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -13,6 +13,7 @@ import (
 type DocxFile struct {
 	Name   string
 	Source *zip.ReadCloser
+	Files  []*zipfile
 	//Target io.Writer
 }
 
@@ -21,7 +22,8 @@ func NewDocxFile(name string) (*DocxFile, error) {
 		return nil, ErrEmptyName
 	}
 
-	return &DocxFile{Name: name}, nil
+	return &DocxFile{Name: name,
+		Files: make([]*zipfile, 0)}, nil
 }
 
 func NewDocxFileFromPath(filePath string) (*DocxFile, error) {
@@ -31,7 +33,9 @@ func NewDocxFileFromPath(filePath string) (*DocxFile, error) {
 	}
 	//defer r.Close()
 
-	return &DocxFile{Name: path.Base(filePath), Source: r}, nil
+	return &DocxFile{Name: path.Base(filePath),
+		Source: r,
+		Files:  make([]*zipfile, 0)}, nil
 }
 
 // 合并docx文件至路径
@@ -46,28 +50,40 @@ func (d *DocxFile) CombineTo(docxParentDir, saveDir string) error {
 		return err
 	}
 
-	fmt.Println("docx dir:", docxParentDir)
-	fw, err := os.Create(path.Join(saveDir, d.Name))
+	filepath.Walk(docxParentDir, func(filePath string, info os.FileInfo, err error) error {
+		formatPath := strings.Replace(filePath, strings.TrimSpace(path.Join(docxParentDir, " ")), "", -1)
+		// 过滤目录
+		if err := MustExistAndDir(filePath); err != nil {
+			if filePath != "./" {
+				fileBody, _ := ioutil.ReadFile(filePath)
+				zf, _ := newZipfile(formatPath, fileBody)
+				d.Files = append(d.Files, zf)
+			}
+		}
+		return nil
+	})
+
+	docxFile, err := os.Create(path.Join(saveDir, d.Name))
 	if err != nil {
 		return err
 	}
-	defer fw.Close()
-	//docxFile := zip.NewWriter(fw)
+	defer docxFile.Close()
 
-	filepath.Walk(docxParentDir, func(filePath string, info os.FileInfo, err error) error {
-		formatPath := strings.Replace(filePath, strings.TrimSpace(path.Join(docxParentDir, " ")), "", -1)
-		fmt.Println("path:", formatPath)
+	docxWrite := zip.NewWriter(docxFile)
+	for _, f := range d.Files {
+		t, _ := docxWrite.Create(f.name)
+		t.Write(f.body)
+	}
 
-		return nil
-	})
+	if err := docxWrite.Close(); err != nil {
+		return err
+	}
 
 	return nil
 }
 
 // 分解docx文件至路径
 func (d *DocxFile) DecomposeTo(saveDir string) error {
-	fmt.Println("name:", d.Name)
-
 	// 确认saveDir目录存在，以及有相应权限
 	err := MustExistAndDir(saveDir)
 	if err != nil {
