@@ -33,10 +33,10 @@ import (
 </Types>
 */
 type contentType struct {
-	XMLName  xml.Name `xml:"Types"`
-	Xmlns    string   `xml:"xmlns,attr"`
-	Default  []typeDefault
-	Override []typeOverride
+	XMLName  xml.Name       `xml:"Types"`
+	Xmlns    string         `xml:"xmlns,attr"`
+	Default  []typeDefault  `xml:"Default"`
+	Override []typeOverride `xml:"Override"`
 }
 
 type typeDefault struct {

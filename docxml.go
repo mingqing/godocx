@@ -20,5 +20,11 @@ func (d *docXml) Test() {
 		fmt.Printf("error: %v\n", err)
 	}
 
-	fmt.Println(xml.Header + string(output))
+	rels := newRelationships()
+	relsByte, err := xml.MarshalIndent(rels, "", "  ")
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+
+	fmt.Println(xml.Header + string(output) + string(relsByte))
 }
