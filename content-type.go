@@ -2,36 +2,11 @@ package godocx
 
 import (
 	"encoding/xml"
+	"os"
+	"path"
 	//"fmt"
 )
 
-/*
-<?xml version="1.0" encoding="utf-8"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
-  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
-  <Default Extension="xml" ContentType="application/xml"/>
-  <Default Extension="png" ContentType="image/png"/>
-  <Default Extension="wmf" ContentType="image/x-wmf"/>
-  <Default Extension="bin" ContentType="application/vnd.openxmlformats-officedocument.oleObject"/>
-  <Override PartName="/word/footnotes.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml"/>
-  <Override PartName="/customXml/itemProps1.xml" ContentType="application/vnd.openxmlformats-officedocument.customXmlProperties+xml"/>
-  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-  <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
-  <Override PartName="/word/endnotes.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml"/>
-  <Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>
-  <Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>
-  <Override PartName="/word/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
-  <Override PartName="/word/fontTable.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml"/>
-  <Override PartName="/word/webSettings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml"/>
-  <Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>
-  <Override PartName="/word/headereven.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
-  <Override PartName="/word/headerdefault.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
-  <Override PartName="/word/footereven.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
-  <Override PartName="/word/footerdefault.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
-  <Override PartName="/word/headeranswer.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
-  <Override PartName="/word/footeranswer.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
-</Types>
-*/
 type contentType struct {
 	XMLName  xml.Name       `xml:"Types"`
 	Xmlns    string         `xml:"xmlns,attr"`
@@ -79,4 +54,22 @@ func newContentType() *contentType {
 	}
 
 	return c
+}
+
+func (c *contentType) Save(dirpath string) error {
+	output, err := xml.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Create(path.Join(dirpath, "[Content_Types].xml"))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	f.WriteString(xml.Header)
+	f.Write(output)
+
+	return nil
 }

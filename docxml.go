@@ -14,6 +14,11 @@ func NewDocXml() *docXml {
 	return &docXml{}
 }
 
+func (d *docXml) Save(dirpath string) error {
+	c := newContentType()
+	return c.Save(dirpath)
+}
+
 func (d *docXml) Test() {
 	/*
 		c := newContentType()
