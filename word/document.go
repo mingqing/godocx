@@ -26,24 +26,25 @@ type wordBody struct {
 // Paragraph props
 type wordPPr struct {
 	XMLName xml.Name `xml:"w:pPr"`
-	Jc      wordJc
-	RPr     wordRPr
+	Jc      *wordJc
+	RPr     *wordRPr
 }
 
 // Run props
 type wordRPr struct {
 	XMLName xml.Name `xml:"w:rPr"`
-	B       string   `xml:"w:b,omitempty"`
-	I       string   `xml:"w:i,omitempty"`
-	RFonts  wordRFonts
-	Sz      wordSz
-	SzCs    wordSzCs
+	RFonts  *wordRFonts
+	B       *wordB
+	I       *wordI
+	Sz      *wordSz
+	SzCs    *wordSzCs
 }
 
 type wordR struct {
 	XMLName xml.Name `xml:"w:r"`
+	RsidRPr string   `xml:"w:rsidRPr,attr,omitempty"`
+	RPr     *wordRPr `xml:"w:rPr"`
 	T       string   `xml:"w:t"`
-	RPr     wordRPr
 }
 
 type wordJc struct {
@@ -63,10 +64,17 @@ type wordSzCs struct {
 	Val     string   `xml:"w:val,attr,omitempty"`
 }
 
+type wordB struct {
+	XMLName xml.Name `xml:"w:b"`
+}
+type wordI struct {
+	XMLName xml.Name `xml:"w:i"`
+}
+
 type wordRFonts struct {
 	XMLName       xml.Name `xml:"w:rFonts"`
-	Ascii         string   `xml:"w:ascii,omitempty"`
-	EastAsia      string   `xml:"w:eastAsia,omitempty"`
+	Ascii         string   `xml:"w:ascii,attr,omitempty"`
+	EastAsia      string   `xml:"w:eastAsia,attr,omitempty"`
 	AsciiTheme    string   `xml:"w:asciiTheme,attr,omitempty"`
 	EastAsiaTheme string   `xml:"w:eastAsiaTheme,attr,omitempty"`
 	HansiTheme    string   `xml:"w:hAnsiTheme,attr,omitempty"`
@@ -80,57 +88,62 @@ type wordP struct {
 	RsidP        string   `xml:"w:rsidP,attr,omitempty"`
 	RsidRPr      string   `xml:"w:rsidRPr,attr,omitempty"`
 	RsidRDefault string   `xml:"w:rsidRDefault,attr,omitempty"`
-	PPr          wordPPr
-	R            wordR
+	PPr          *wordPPr
+	R            *wordR
 }
 
 func NewDocument() *document {
 	d := &document{}
 
 	d.Body = wordBody{Content: make([]interface{}, 0)}
-	//paragh := wordP{RsidR: "00C93DDE", RsidP: "00F56D61", RsidRPr: "00C93DDE", RsidRDefault: "00C93DDE"}
-	paragh := wordP{}
-	paragh.PPr.RPr.RFonts.EastAsia = "黑体"
-	paragh.PPr.RPr.B = " "
-	paragh.R.RPr.RFonts.Ascii = "黑体"
-	paragh.R.RPr.RFonts.EastAsia = "黑体"
-	paragh.R.RPr.RFonts.Hint = "eastAsia"
+	paragh := wordP{RsidR: "00C93DDE", RsidP: "00C93DDE", RsidRPr: "00F56D61", RsidRDefault: "00C93DDE"}
+	paragh.PPr = &wordPPr{RPr: &wordRPr{}}
+	paragh.PPr.RPr.B = &wordB{}
+	paragh.PPr.RPr.RFonts = &wordRFonts{EastAsia: "黑体"}
+	paragh.R = &wordR{RPr: &wordRPr{}}
+	paragh.R.RsidRPr = "00F56D61"
+	paragh.R.RPr.RFonts = &wordRFonts{Ascii: "黑体", EastAsia: "黑体", Hint: "eastAsia"}
 	paragh.R.T = "绝密★启用前"
+	paragh.R.RPr.B = &wordB{}
 	d.Body.Content = append(d.Body.Content, paragh)
 
-	paragh = wordP{}
-	paragh.PPr.Jc.Val = "center"
-	paragh.PPr.RPr.RFonts.EastAsia = "黑体"
-	paragh.PPr.RPr.B = " "
-	paragh.PPr.RPr.Sz.Val = "30"
-	paragh.PPr.RPr.SzCs.Val = "30"
-	paragh.R.RPr.RFonts.EastAsia = "黑体"
-	paragh.R.RPr.RFonts.Hint = "eastAsia"
-	paragh.R.RPr.B = " "
-	paragh.R.RPr.Sz.Val = "30"
-	paragh.R.RPr.SzCs.Val = "30"
+	paragh = wordP{RsidR: "00C93DDE", RsidP: "00C93DDE", RsidRPr: "00771D19", RsidRDefault: "00C93DDE"}
+	paragh.PPr = &wordPPr{RPr: &wordRPr{}}
+	paragh.PPr.Jc = &wordJc{Val: "center"}
+	paragh.PPr.RPr.RFonts = &wordRFonts{EastAsia: "黑体"}
+	paragh.PPr.RPr.B = &wordB{}
+	paragh.PPr.RPr.Sz = &wordSz{Val: "30"}
+	paragh.PPr.RPr.SzCs = &wordSzCs{Val: "30"}
+	paragh.R = &wordR{RPr: &wordRPr{}}
+	paragh.R.RsidRPr = "00771D19"
+	paragh.R.RPr.RFonts = &wordRFonts{Ascii: "黑体", EastAsia: "黑体", Hint: "eastAsia"}
+	paragh.R.RPr.B = &wordB{}
+	paragh.R.RPr.Sz = &wordSz{Val: "30"}
+	paragh.R.RPr.SzCs = &wordSzCs{Val: "30"}
 	paragh.R.T = "2015-2016学年度???学校11月月考卷"
 	d.Body.Content = append(d.Body.Content, paragh)
 
-	paragh = wordP{}
-	paragh.PPr.Jc.Val = "center"
-	paragh.PPr.RPr.RFonts.AsciiTheme = "minorHAnsi"
-	paragh.PPr.RPr.RFonts.EastAsia = "黑体"
-	paragh.PPr.RPr.RFonts.HansiTheme = "minorHAnsi"
-	paragh.PPr.RPr.B = " "
-	paragh.PPr.RPr.Sz.Val = "36"
-	paragh.PPr.RPr.SzCs.Val = "36"
-	paragh.R.RPr.RFonts.EastAsia = "黑体"
-	paragh.R.RPr.RFonts.Hint = "eastAsia"
-	paragh.R.RPr.B = " "
-	paragh.R.RPr.Sz.Val = "36"
-	paragh.R.RPr.SzCs.Val = "36"
+	paragh = wordP{RsidR: "00C93DDE", RsidP: "00C93DDE", RsidRPr: "006725CC", RsidRDefault: "00C93DDE"}
+	paragh.PPr = &wordPPr{RPr: &wordRPr{}}
+	paragh.PPr.Jc = &wordJc{Val: "center"}
+	paragh.PPr.RPr.RFonts = &wordRFonts{AsciiTheme: "minorHAnsi", HansiTheme: "minorHAnsi", EastAsia: "黑体"}
+	paragh.PPr.RPr.B = &wordB{}
+	paragh.PPr.RPr.Sz = &wordSz{Val: "36"}
+	paragh.PPr.RPr.SzCs = &wordSzCs{Val: "36"}
+	paragh.R = &wordR{RPr: &wordRPr{}}
+	paragh.R.RsidRPr = "00771D19"
+	paragh.R.RPr.RFonts = &wordRFonts{EastAsia: "黑体", Hint: "eastAsia"}
+	paragh.R.RPr.B = &wordB{}
+	paragh.R.RPr.Sz = &wordSz{Val: "36"}
+	paragh.R.RPr.SzCs = &wordSzCs{Val: "36"}
 	paragh.R.T = "试卷副标题"
 	d.Body.Content = append(d.Body.Content, paragh)
 
-	paragh = wordP{}
-	paragh.PPr.Jc.Val = "center"
-	paragh.R.RPr.RFonts.Hint = "eastAsia"
+	paragh = wordP{RsidR: "004D42A0", RsidP: "009C38D0", RsidRDefault: "0063100E"}
+	paragh.PPr = &wordPPr{}
+	paragh.PPr.Jc = &wordJc{Val: "center"}
+	paragh.R = &wordR{RPr: &wordRPr{}}
+	paragh.R.RPr.RFonts = &wordRFonts{Hint: "eastAsia"}
 	paragh.R.T = "考试范围：xxx；考试时间：100分钟；命题人：xxx"
 	d.Body.Content = append(d.Body.Content, paragh)
 
