@@ -13,3 +13,17 @@ type Paragraph struct {
 	PPr          *ParagraphProperties
 	R            *RunContent
 }
+
+func NewParagraph() *Paragraph {
+	return &Paragraph{}
+}
+
+func (p *Paragraph) AddProperties() *ParagraphProperties {
+	p.PPr = NewParagraphProperties()
+	return p.PPr
+}
+
+func (p *Paragraph) AddRunContent() *RunContent {
+	p.R = &RunContent{}
+	return p.R
+}

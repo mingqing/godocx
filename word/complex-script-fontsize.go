@@ -5,6 +5,6 @@ import (
 )
 
 type ComplexScriptFontsize struct {
-	XMLName xml.Name `xml:"w:sz"`
+	XMLName xml.Name `xml:"w:szCs"`
 	Val     string   `xml:"w:val,attr,omitempty"`
 }

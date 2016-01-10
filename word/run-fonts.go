@@ -13,3 +13,7 @@ type RunFonts struct {
 	HansiTheme    string   `xml:"w:hAnsiTheme,attr,omitempty"`
 	Hint          string   `xml:"w:hint,attr,omitempty"`
 }
+
+func NewRunFonts() *RunFonts {
+	return &RunFonts{}
+}

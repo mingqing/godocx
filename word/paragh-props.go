@@ -7,6 +7,20 @@ import (
 // Paragraph Properties
 type ParagraphProperties struct {
 	XMLName xml.Name `xml:"w:pPr"`
-	Jc      *Jc
+	Align   *Align
 	RPr     *RunProperties
+}
+
+func NewParagraphProperties() *ParagraphProperties {
+	return &ParagraphProperties{}
+}
+
+func (p *ParagraphProperties) AddAlign(val string) *Align {
+	p.Align = NewAlign(val)
+	return p.Align
+}
+
+func (p *ParagraphProperties) AddRunProperties() *RunProperties {
+	p.RPr = NewRunProperties()
+	return p.RPr
 }
