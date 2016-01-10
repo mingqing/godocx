@@ -8,7 +8,7 @@ type Table struct {
 	XMLName xml.Name `xml:"w:tbl"`
 	Pr      *TableProperties
 	Grid    *TableGrid
-	Tr      *TableRow
+	Tr      []*TableRow
 }
 
 func NewTable() *Table {
@@ -26,6 +26,7 @@ func (t *Table) AddGrid() *TableGrid {
 }
 
 func (t *Table) AddRow() *TableRow {
-	t.Tr = &TableRow{}
-	return t.Tr
+	tr := &TableRow{}
+	t.Tr = append(t.Tr, tr)
+	return tr
 }

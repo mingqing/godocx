@@ -12,11 +12,28 @@ type TableRow struct {
 
 type RowProps struct {
 	XMLName xml.Name `xml:"w:trPr"`
+	H       *RowHeight
+	W       *RowWidth
 	Jc      *Align
+}
+type RowHeight struct {
+	XMLName xml.Name `xml:"w:trHeight"`
+	Val     string   `xml:"w:val,attr"`
+}
+type RowWidth struct {
+	XMLName xml.Name `xml:"w:trWidth"`
+	Val     string   `xml:"w:val,attr"`
 }
 
 func (r *RowProps) Align(val string) {
 	r.Jc = NewAlign(val)
+}
+
+func (r *RowProps) Height(val string) {
+	r.H = &RowHeight{Val: val}
+}
+func (r *RowProps) Width(val string) {
+	r.W = &RowWidth{Val: val}
 }
 
 func NewTableRow() *TableRow {

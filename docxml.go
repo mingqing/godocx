@@ -33,6 +33,9 @@ func (d *docXml) Test() {
 	d.Text3(document)
 	d.Text4(document)
 	d.Text5(document)
+	d.Text6(document)
+	d.Text7(document)
+	d.Text8(document)
 
 	docByte, err := xml.MarshalIndent(document, "", "  ")
 	if err != nil {
@@ -115,7 +118,14 @@ func (d *docXml) Text5(document *word.Document) {
 	pr.AddStyle("a1")
 	pr.AddWidth("0", "auto")
 	pr.AddAlign("center")
-	pr.AddBorders()
+	border := pr.AddBorders()
+	temp := &word.Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+	border.Top = temp
+	border.Left = temp
+	border.Bottom = temp
+	border.Right = temp
+	border.InsideH = temp
+	border.InsideV = temp
 	pr.AddLayout("fixed")
 	pr.AddLook("04A0")
 	grid := tbl.AddGrid()
@@ -132,6 +142,16 @@ func (d *docXml) Text5(document *word.Document) {
 	d.Table1(tr, "二")
 	d.Table1(tr, "三")
 	d.Table1(tr, "总分")
+
+	tr2 := tbl.AddRow()
+	tr2pr := tr2.AddProps()
+	tr2pr.Align("center")
+	tr2pr.Height("520")
+	d.Table1(tr2, "得分")
+	d.Table1(tr2, "")
+	d.Table1(tr2, "")
+	d.Table1(tr2, "")
+	d.Table1(tr2, "")
 }
 func (d *docXml) Table1(tr *word.TableRow, text string) {
 	tc := tr.AddCell()
@@ -141,9 +161,135 @@ func (d *docXml) Table1(tr *word.TableRow, text string) {
 	tcP := tc.AddParagraph()
 	tcPPr := tcP.AddProperties()
 	tcPPr.AddAlign("center")
+	if text != "" {
+		tcPrc := tcP.AddRunContent()
+		rcpr := tcPrc.AddRunProperties()
+		font := rcpr.AddFont()
+		font.Hint = "eastAsia"
+		tcPrc.Text(text)
+	}
+}
+func (d *docXml) Text6(document *word.Document) {
+	d.defaultText(document, "注意事项：")
+	d.defaultText(document, "1．答题前填写好自己的姓名、班级、考号等信息")
+	d.defaultText(document, "2．请将答案正确填写在答题卡上")
+	d.defaultText(document, "")
+}
+func (d *docXml) defaultText(document *word.Document, text string) {
+	paragh := document.AddParagraph()
+	run := paragh.AddRunContent()
+	rpr := run.AddRunProperties()
+	font := rpr.AddFont()
+	font.Hint = "eastAsia"
+	run.Text(text)
+}
+func (d *docXml) Text7(document *word.Document) {
+	paragh := document.AddParagraph()
+	ppr := paragh.AddProperties()
+	ppr.AddAlign("center")
+	rpr := ppr.AddRunProperties()
+	rpr.Bold(true)
+	font := rpr.AddFont()
+	font.AsciiTheme = "majorEastAsia"
+	font.EastAsiaTheme = "majorEastAsia"
+	font.HansiTheme = "majorEastAsia"
+	rpr.Fontsize("24")
+	rpr.ComplexScriptFontsize("24")
+	run := paragh.AddRunContent()
+	rpr2 := run.AddRunProperties()
+	rpr2.Bold(true)
+	rpr2.Fontsize("24")
+	rpr2.ComplexScriptFontsize("24")
+	font2 := rpr2.AddFont()
+	font2.AsciiTheme = "majorEastAsia"
+	font2.EastAsiaTheme = "majorEastAsia"
+	font2.HansiTheme = "majorEastAsia"
+	font2.Hint = "eastAsia"
+	run.Text("第I卷（选择题）")
+
+	d.defaultText(document, "")
+}
+func (d *docXml) Text8(document *word.Document) {
+	tbl := document.AddTable()
+	pr := tbl.AddProps()
+	pr.AddStyle("a7")
+	pr.AddWidth("0", "auto")
+	border := pr.AddBorders()
+	temp := &word.Border{Val: "none", Sz: "0", Space: "0", Color: "auto"}
+	border.Top = temp
+	border.Left = temp
+	border.Bottom = temp
+	border.Right = temp
+	border.InsideH = temp
+	border.InsideV = temp
+	pr.AddLook("04A0")
+	grid := tbl.AddGrid()
+	grid.AddWidth("2184")
+	grid.AddWidth("3200")
+	tr := tbl.AddRow()
+	tc := tr.AddCell()
+	tcpr := tc.AddProps()
+	tcpr.Width("0", "auto")
+
+	tbl2 := word.NewTable()
+	pr2 := tbl2.AddProps()
+	pr2.AddStyle("a7")
+	pr2.AddWidth("1938", "dxa")
+	border2 := pr2.AddBorders()
+	temp2 := &word.Border{Val: "signle", Sz: "12", Space: "0", Color: "auto"}
+	border2.Top = temp2
+	border2.Left = temp2
+	border2.Bottom = temp2
+	border2.Right = temp2
+	border2.InsideH = temp2
+	border2.InsideV = temp2
+	pr2.AddLook("04A0")
+	grid2 := tbl2.AddGrid()
+	grid2.AddWidth("969")
+	grid2.AddWidth("969")
+	tr2 := tbl2.AddRow()
+	tr2pr := tr2.AddProps()
+	tr2pr.Height("274")
+	d.Table2(tr2, "评卷人")
+	d.Table2(tr2, "得分")
+	tr3 := tbl2.AddRow()
+	tr3pr := tr3.AddProps()
+	tr3pr.Height("549")
+	d.Table2(tr3, "")
+	d.Table2(tr3, "")
+
+	tc.Content = make([]interface{}, 0)
+	tc.Content = append(tc.Content, tbl2)
+	p := &word.Paragraph{}
+	tc.Content = append(tc.Content, p)
+
+	tc2 := tr.AddCell()
+	tcpr2 := tc2.AddProps()
+	tcpr2.Width("0", "auto")
+	tcpr2.Align("center")
+	tcP := tc2.AddParagraph()
+	tcPPr := tcP.AddProperties()
+	//tcPPr.AddAlign("center")
+	tcPPr.AddRunProperties().Bold(true)
 	tcPrc := tcP.AddRunContent()
 	rcpr := tcPrc.AddRunProperties()
 	font := rcpr.AddFont()
 	font.Hint = "eastAsia"
-	tcPrc.Text(text)
+	rcpr.Bold(true)
+	tcPrc.Text("一、选择题（题型注释）")
+}
+func (d *docXml) Table2(tr *word.TableRow, text string) {
+	tc := tr.AddCell()
+	tcpr := tc.AddProps()
+	tcpr.Width("969", "dxa")
+	tcP := tc.AddParagraph()
+	tcPPr := tcP.AddProperties()
+	tcPPr.AddAlign("center")
+	if text != "" {
+		tcPrc := tcP.AddRunContent()
+		rcpr := tcPrc.AddRunProperties()
+		font := rcpr.AddFont()
+		font.Hint = "eastAsia"
+		tcPrc.Text(text)
+	}
 }

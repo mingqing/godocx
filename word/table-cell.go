@@ -7,6 +7,7 @@ import (
 type TableCell struct {
 	XMLName xml.Name `xml:"w:tc"`
 	Pr      *CellProps
+	Content []interface{}
 	P       *Paragraph
 }
 
@@ -18,6 +19,11 @@ type CellProps struct {
 
 type CellWidth struct {
 	XMLName xml.Name `xml:"w:tcW"`
+	W       string   `xml:"w:w,attr,omitempty"`
+	Type    string   `xml:"w:type,attr,omitempty"`
+}
+type CellHeight struct {
+	XMLName xml.Name `xml:"w:tcH"`
 	W       string   `xml:"w:w,attr,omitempty"`
 	Type    string   `xml:"w:type,attr,omitempty"`
 }

@@ -31,12 +31,14 @@ func (t *TableProperties) AddAlign(val string) *Align {
 
 func (t *TableProperties) AddBorders() *TableBorders {
 	t.Borders = &TableBorders{}
-	t.Borders.Top = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
-	t.Borders.Left = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
-	t.Borders.Bottom = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
-	t.Borders.Right = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
-	t.Borders.InsideH = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
-	t.Borders.InsideV = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+	/*
+		t.Borders.Top = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+		t.Borders.Left = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+		t.Borders.Bottom = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+		t.Borders.Right = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+		t.Borders.InsideH = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+		t.Borders.InsideV = &Border{Val: "single", Sz: "4", Space: "0", Color: "000000", ThemeColor: "text1"}
+	*/
 	return t.Borders
 }
 
