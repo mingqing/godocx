@@ -24,6 +24,12 @@ func (d *Document) AddParagraph() *Paragraph {
 	return paragh
 }
 
+func (d *Document) AddTable() *Table {
+	tbl := NewTable()
+	d.Body.Content = append(d.Body.Content, tbl)
+	return tbl
+}
+
 func NewDocument() *Document {
 	d := &Document{}
 
