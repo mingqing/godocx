@@ -23,7 +23,7 @@ func NewDocXml(fpath string) (*docXml, error) {
 	fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
 
 	d.ContentType(d.Dir)
-	d.DocPropsApp(d.Dir)
+	d.DocProps(d.Dir)
 	return d, nil
 }
 
@@ -36,9 +36,14 @@ func (d *docXml) ContentType(dirpath string) error {
 	return c.Save(dirpath)
 }
 
-func (d *docXml) DocPropsApp(dirpath string) error {
-	c := newDocPropsApp()
-	return c.Save(dirpath)
+func (d *docXml) DocProps(dirpath string) error {
+	app := newDocPropsApp()
+	app.Save(dirpath)
+
+	core := newDocPropsCore()
+	core.Save(dirpath)
+
+	return nil
 }
 
 func (d *docXml) Test() {

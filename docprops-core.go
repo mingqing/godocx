@@ -27,19 +27,30 @@ type docPropsCore struct {
 
 func newDocPropsCore() *docPropsCore {
 	c := &docPropsCore{}
-	c.XmlnsCp = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
-	c.XmlnsDc = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
+	c.XmlnsCp = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties"
+	c.XmlnsDc = "http://purl.org/dc/elements/1.1/"
+	c.XmlnsDcterms = "http://purl.org/dc/terms/"
+	c.XmlnsDcmitype = "http://purl.org/dc/dcmitype/"
+	c.XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance"
+	c.Creator = "godocx"
+	c.LastModifiedBy = "godocx"
+	c.Revision = "11"
+	c.Created = "2016-01-11T07:16:00Z"
+	c.Modified = "2016-01-11T07:16:00Z"
 
 	return c
 }
 
 func (c *docPropsCore) Save(dirpath string) error {
+	fpath := path.Join(dirpath, "docProps")
+	os.Mkdir(fpath, os.ModePerm)
+
 	output, err := xml.MarshalIndent(c, "", "  ")
 	if err != nil {
 		return err
 	}
 
-	f, err := os.Create(path.Join(dirpath, "[Content_Types].xml"))
+	f, err := os.Create(path.Join(fpath, "core.xml"))
 	if err != nil {
 		return err
 	}
