@@ -22,6 +22,8 @@ func NewDocXml(fpath string) (*docXml, error) {
 
 	fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
 
+	d.ContentType(d.Dir)
+	d.DocPropsApp(d.Dir)
 	return d, nil
 }
 
@@ -29,8 +31,13 @@ func (d *docXml) Document() *word.Document {
 	return word.NewDocument()
 }
 
-func (d *docXml) Save(dirpath string) error {
+func (d *docXml) ContentType(dirpath string) error {
 	c := newContentType()
+	return c.Save(dirpath)
+}
+
+func (d *docXml) DocPropsApp(dirpath string) error {
+	c := newDocPropsApp()
 	return c.Save(dirpath)
 }
 

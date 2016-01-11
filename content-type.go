@@ -33,8 +33,6 @@ func newContentType() *contentType {
 	defaultValues["rels"] = "application/vnd.openxmlformats-package.relationships+xml"
 	defaultValues["xml"] = "application/xml"
 	defaultValues["png"] = "image/png"
-	defaultValues["wmf"] = "image/x-wmf"
-	defaultValues["bin"] = "application/vnd.openxmlformats-officedocument.oleObject"
 
 	defaultObj := typeDefault{}
 	for key, value := range defaultValues {
@@ -45,6 +43,19 @@ func newContentType() *contentType {
 
 	overrideValues := make(map[string]string, 0)
 	overrideValues["/word/document.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"
+	overrideValues["/word/styles.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"
+	overrideValues["/word/endnotes.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml"
+	overrideValues["/docProps/app.xml"] = "application/vnd.openxmlformats-officedocument.extended-properties+xml"
+	overrideValues["/word/settings.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"
+	overrideValues["/word/footer2.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
+	overrideValues["/word/footer1.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
+	overrideValues["/word/footnotes.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml"
+	overrideValues["/word/theme/theme1.xml"] = "application/vnd.openxmlformats-officedocument.theme+xml"
+	overrideValues["/word/header2.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/word/fontTable.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml"
+	overrideValues["/word/webSettings.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml"
+	overrideValues["/word/header1.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/docProps/core.xml"] = "application/vnd.openxmlformats-package.core-properties+xml"
 
 	overrideObj := typeOverride{}
 	for key, value := range overrideValues {
