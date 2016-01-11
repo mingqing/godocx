@@ -10,20 +10,21 @@ type Paragraph struct {
 	RsidP        string   `xml:"w:rsidP,attr,omitempty"`
 	RsidRPr      string   `xml:"w:rsidRPr,attr,omitempty"`
 	RsidRDefault string   `xml:"w:rsidRDefault,attr,omitempty"`
-	PPr          *ParagraphProperties
-	R            *RunContent
+	Content      []interface{}
 }
 
 func NewParagraph() *Paragraph {
-	return &Paragraph{}
+	return &Paragraph{Content: make([]interface{}, 0)}
 }
 
 func (p *Paragraph) AddProperties() *ParagraphProperties {
-	p.PPr = NewParagraphProperties()
-	return p.PPr
+	ppr := NewParagraphProperties()
+	p.Content = append(p.Content, ppr)
+	return ppr
 }
 
 func (p *Paragraph) AddRunContent() *RunContent {
-	p.R = &RunContent{}
-	return p.R
+	r := &RunContent{}
+	p.Content = append(p.Content, r)
+	return r
 }

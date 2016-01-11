@@ -7,20 +7,22 @@ import (
 // Run props
 type RunProperties struct {
 	XMLName xml.Name `xml:"w:rPr"`
-	RFonts  *RunFonts
-	B       *Bold
-	I       *Italics
-	Sz      *Fontsize
-	SzCs    *ComplexScriptFontsize
+	Content []interface{}
+	//RFonts  *RunFonts
+	B    *Bold
+	I    *Italics
+	Sz   *Fontsize
+	SzCs *ComplexScriptFontsize
 }
 
 func NewRunProperties() *RunProperties {
-	return &RunProperties{}
+	return &RunProperties{Content: make([]interface{}, 0)}
 }
 
 func (r *RunProperties) AddFont() *RunFonts {
-	r.RFonts = NewRunFonts()
-	return r.RFonts
+	obj := NewRunFonts()
+	r.Content = append(r.Content, obj)
+	return obj
 }
 
 func (r *RunProperties) Bold(bold bool) {

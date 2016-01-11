@@ -3,15 +3,30 @@ package godocx
 import (
 	"encoding/xml"
 	"fmt"
+	"path/filepath"
 
 	"github.com/mingqing/godocx/word"
 )
 
 type docXml struct {
+	Dir  string
+	Name string
 }
 
-func NewDocXml() *docXml {
-	return &docXml{}
+func NewDocXml(fpath string) (*docXml, error) {
+	d := &docXml{Dir: filepath.Dir(fpath), Name: filepath.Base(fpath)}
+	if err := MustNotExistAndCreate(d.Dir); err != nil {
+		fmt.Println("err:", err)
+		return nil, err
+	}
+
+	fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
+
+	return d, nil
+}
+
+func (d *docXml) Document() *word.Document {
+	return word.NewDocument()
 }
 
 func (d *docXml) Save(dirpath string) error {
@@ -29,13 +44,13 @@ func (d *docXml) Test() {
 	*/
 	document := word.NewDocument()
 	d.Text1(document)
-	d.Text2(document)
-	d.Text3(document)
-	d.Text4(document)
-	d.Text5(document)
-	d.Text6(document)
-	d.Text7(document)
-	d.Text8(document)
+	//d.Text2(document)
+	//d.Text3(document)
+	//d.Text4(document)
+	//d.Text5(document)
+	//d.Text6(document)
+	//d.Text7(document)
+	//d.Text8(document)
 
 	docByte, err := xml.MarshalIndent(document, "", "  ")
 	if err != nil {

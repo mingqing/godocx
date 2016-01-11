@@ -20,3 +20,16 @@ func MustExistAndDir(dirPath string) error {
 
 	return nil
 }
+
+func MustNotExistAndCreate(dirPath string) error {
+	// 确认dirPath目录必须不存在
+	_, err := os.Open(dirPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			os.MkdirAll(dirPath, os.ModePerm)
+			return nil
+		}
+	}
+
+	return ErrExistDir
+}

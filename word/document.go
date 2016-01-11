@@ -18,6 +18,12 @@ type Document struct {
 	Body     Body
 }
 
+func NewDocument() *Document {
+	d := &Document{}
+
+	return d
+}
+
 func (d *Document) AddParagraph() *Paragraph {
 	paragh := NewParagraph()
 	d.Body.Content = append(d.Body.Content, paragh)
@@ -28,10 +34,4 @@ func (d *Document) AddTable() *Table {
 	tbl := NewTable()
 	d.Body.Content = append(d.Body.Content, tbl)
 	return tbl
-}
-
-func NewDocument() *Document {
-	d := &Document{}
-
-	return d
 }
