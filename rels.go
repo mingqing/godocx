@@ -2,6 +2,8 @@ package godocx
 
 import (
 	"encoding/xml"
+	"os"
+	"path"
 )
 
 type relationships struct {
@@ -11,9 +13,9 @@ type relationships struct {
 }
 
 type relationship struct {
-	Id     string `xml:"Id"`
-	Type   string `xml:"Type"`
-	Target string `xml:"Target"`
+	Id     string `xml:"Id,attr"`
+	Type   string `xml:"Type,attr"`
+	Target string `xml:"Target,attr"`
 }
 
 func newRelationships() *relationships {
@@ -36,4 +38,25 @@ func newRelationships() *relationships {
 	relObj.Target = "docProps/app.xml"
 	c.Relationship = append(c.Relationship, relObj)
 	return c
+}
+
+func (c *relationships) Save(dirpath string) error {
+	fpath := path.Join(dirpath, "_rels")
+	os.Mkdir(fpath, os.ModePerm)
+
+	output, err := xml.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Create(path.Join(fpath, ".rels"))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	f.WriteString(xml.Header)
+	f.Write(output)
+
+	return nil
 }

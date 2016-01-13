@@ -24,18 +24,17 @@ func NewDocXml(fpath string) (*docXml, error) {
 
 	d.ContentType(d.Dir)
 	d.DocProps(d.Dir)
+	d.Rels(d.Dir)
 	return d, nil
 }
 
 func (d *docXml) Document() *word.Document {
 	return word.NewDocument()
 }
-
 func (d *docXml) ContentType(dirpath string) error {
 	c := newContentType()
 	return c.Save(dirpath)
 }
-
 func (d *docXml) DocProps(dirpath string) error {
 	app := newDocPropsApp()
 	app.Save(dirpath)
@@ -43,6 +42,11 @@ func (d *docXml) DocProps(dirpath string) error {
 	core := newDocPropsCore()
 	core.Save(dirpath)
 
+	return nil
+}
+func (d *docXml) Rels(dirpath string) error {
+	rels := newRelationships()
+	rels.Save(dirpath)
 	return nil
 }
 
