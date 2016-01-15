@@ -24,7 +24,7 @@ func (p *Paragraph) AddProperties() *ParagraphProperties {
 }
 
 func (p *Paragraph) AddRunContent() *RunContent {
-	r := &RunContent{}
+	r := NewRunContent()
 	p.Content = append(p.Content, r)
 	return r
 }

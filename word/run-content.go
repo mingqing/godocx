@@ -5,11 +5,11 @@ import (
 )
 
 type RunContent struct {
-	XMLName xml.Name       `xml:"w:r"`
-	RsidRPr string         `xml:"w:rsidRPr,attr,omitempty"`
-	RPr     *RunProperties `xml:"w:rPr"`
+	XMLName xml.Name `xml:"w:r"`
+	RsidRPr string   `xml:"w:rsidRPr,attr,omitempty"`
 	Content []interface{}
 	T       string `xml:"w:t,omitempty"`
+	//RPr     *RunProperties `xml:"w:rPr"`
 }
 
 func NewRunContent() *RunContent {

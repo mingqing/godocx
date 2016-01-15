@@ -8,11 +8,10 @@ import (
 type RunProperties struct {
 	XMLName xml.Name `xml:"w:rPr"`
 	Content []interface{}
-	//RFonts  *RunFonts
-	B    *Bold
-	I    *Italics
-	Sz   *Fontsize
-	SzCs *ComplexScriptFontsize
+	B       *Bold
+	I       *Italics
+	Sz      *Fontsize
+	SzCs    *ComplexScriptFontsize
 }
 
 func NewRunProperties() *RunProperties {
