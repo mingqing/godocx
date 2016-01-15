@@ -25,3 +25,7 @@ func (r *RunContent) AddRunProperties() *RunProperties {
 func (r *RunContent) Text(val string) {
 	r.T = val
 }
+
+func (r *RunContent) Insert(obj interface{}) {
+	r.Content = append(r.Content, obj)
+}
