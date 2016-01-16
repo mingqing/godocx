@@ -66,6 +66,9 @@ func (d *Document) Save(dirpath string) error {
 	os.Mkdir(path.Join(fpath, "_rels"), os.ModePerm)
 	os.Mkdir(path.Join(fpath, "media"), os.ModePerm)
 
+	// sectPr
+	d.Body.Content = append(d.Body.Content, newSectPr())
+
 	output, err := xml.MarshalIndent(d, "", "  ")
 	if err != nil {
 		return err
