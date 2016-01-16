@@ -13,7 +13,7 @@ type Styles struct {
 	XmlnsW       string   `xml:"w:xmln:w,attr,omitempty"`
 	DocDefaults  *docDefaults
 	LatentStyles *latentStyles
-	//Style        *style
+	Style        []*wStyle
 }
 
 type docDefaults struct {
@@ -47,6 +47,27 @@ type lsdException struct {
 
 func newLsdException(name, sh, up, uh, qf string) *lsdException {
 	return &lsdException{Name: name, SemiHidden: sh, UiPriority: up, UnhideWhenUsed: uh, QFormat: qf}
+}
+
+type wStyle struct {
+	XMLName        xml.Name    `xml:"w:style"`
+	Type           string      `xml:"w:type,attr"`
+	Default        string      `xml:"w:default,attr"`
+	StyleId        string      `xml:"w:styleId,attr"`
+	Name           *settingVal `xml:"w:name"`
+	BasedOn        *settingVal `xml:"w:basedOn"`
+	Link           *settingVal `xml:"w:link"`
+	UiPriority     *settingVal `xml:"w:uiPriority"`
+	SemiHidden     string      `xml:"w:semiHidden,omitempty"`
+	UnhideWhenUsed string      `xml:"w:unhideWhenUsed,omitempty"`
+	QFormat        string      `xml:"w:qFormat,omitempty"`
+	Rsid           *settingVal `xml:"w:rsid"`
+	PPr            *ParagraphProperties
+	RPr            *RunProperties
+}
+
+func newStyle(typ, dft, sid, name string) *wStyle {
+	return &wStyle{Type: typ, Default: dft, StyleId: sid, Name: &settingVal{Val: name}}
 }
 
 func NewStyles() *Styles {
@@ -88,6 +109,7 @@ func NewStyles() *Styles {
 	styles.LatentStyles = ls
 
 	// Step 3
+	styles.addStyle()
 
 	return styles
 }
@@ -162,6 +184,38 @@ func (ls *latentStyles) addOther() {
 			ls.LsdException = append(ls.LsdException, newLsdException("Colorful Grid Accent ", "", "73", "", ""))
 		}
 	}
+}
+
+func (n *Styles) addStyle() {
+	s1 := newStyle("paragraph", "1", "a", "Normal")
+	s1.Rsid = &settingVal{Val: "002A2386"}
+	s1.PPr = NewParagraphProperties()
+	s1.PPr.AddAlign("both")
+
+	s2 := newStyle("character", "1", "a0", "Default Paragraph Font")
+	s2.UiPriority = &settingVal{Val: "1"}
+
+	s3 := newStyle("table", "1", "a1", "Normal Table")
+	s3.UiPriority = &settingVal{Val: "99"}
+	//s3.tablPr
+
+	s4 := newStyle("numbering", "1", "a2", "No List")
+	s4.UiPriority = &settingVal{Val: "99"}
+
+	s5 := newStyle("paragraph", "1", "a3", "header")
+	s5.BasedOn = &settingVal{Val: "a"}
+	s5.Link = &settingVal{Val: "Char"}
+	s5.UiPriority = &settingVal{Val: "99"}
+	s5.Rsid = &settingVal{Val: "00AD3992"}
+	s5.PPr = NewParagraphProperties()
+	s5.PPr.AddAlign("center")
+	//s5.RPr
+
+	n.Style = append(n.Style, s1)
+	n.Style = append(n.Style, s2)
+	n.Style = append(n.Style, s3)
+	n.Style = append(n.Style, s4)
+	n.Style = append(n.Style, s5)
 }
 
 func (n *Styles) Save(dirpath string) error {
