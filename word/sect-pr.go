@@ -7,8 +7,8 @@ import (
 type sectPr struct {
 	XMLName   xml.Name     `xml:"w:sectPr"`
 	Val       string       `xml:"w:val,attr,omitempty"` // on,1,true off,0,false
-	Header    *[]reference `xml:"w:headerReference"`
-	Footer    *[]reference `xml:"w:footerReference"`
+	Header    []*reference `xml:"w:headerReference"`
+	Footer    []*reference `xml:"w:footerReference"`
 	PgSz      *pgSz
 	PgMar     *pgMar
 	PgNumType *pgNumType
