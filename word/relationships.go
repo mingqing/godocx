@@ -87,7 +87,7 @@ func newRelationships() *relationships {
 
 func (c *relationships) save(dirpath string) error {
 	fpath := path.Join(dirpath, "word", "_rels")
-	//os.Mkdir(fpath, os.ModePerm)
+	os.Mkdir(fpath, os.ModePerm)
 
 	output, err := xml.MarshalIndent(c, "", "  ")
 	if err != nil {

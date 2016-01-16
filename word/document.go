@@ -56,7 +56,9 @@ func (d *Document) SectPr() {
 }
 
 func (d *Document) Save(dirpath string) error {
-	d.rels.save(dirpath)
+	if err := d.rels.save(dirpath); err != nil {
+		return err
+	}
 
 	fpath := path.Join(dirpath, "word")
 	os.Mkdir(fpath, os.ModePerm)
