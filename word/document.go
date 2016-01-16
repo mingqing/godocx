@@ -2,6 +2,8 @@ package word
 
 import (
 	"encoding/xml"
+	"os"
+	"path"
 )
 
 type Document struct {
@@ -34,4 +36,25 @@ func (d *Document) AddTable() *Table {
 	tbl := NewTable()
 	d.Body.Content = append(d.Body.Content, tbl)
 	return tbl
+}
+
+func (d *Document) Save(dirpath string) error {
+	fpath := path.Join(dirpath, "word")
+	os.Mkdir(fpath, os.ModePerm)
+
+	output, err := xml.MarshalIndent(d, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Create(path.Join(fpath, "document.xml"))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	f.WriteString(xml.Header)
+	f.Write(output)
+
+	return nil
 }
