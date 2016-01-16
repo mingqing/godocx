@@ -5,12 +5,10 @@ import (
 )
 
 type sectPr struct {
-	XMLName   xml.Name   `xml:"w:sectPr"`
-	Val       string     `xml:"w:val,attr,omitempty"` // on,1,true off,0,false
-	Header1   *reference `xml:"w:headerReference"`
-	Header2   *reference `xml:"w:headerReference"`
-	Footer1   *reference `xml:"w:footerReference"`
-	Footer2   *reference `xml:"w:footerReference"`
+	XMLName   xml.Name     `xml:"w:sectPr"`
+	Val       string       `xml:"w:val,attr,omitempty"` // on,1,true off,0,false
+	Header    *[]reference `xml:"w:headerReference"`
+	Footer    *[]reference `xml:"w:footerReference"`
 	PgSz      *pgSz
 	PgMar     *pgMar
 	PgNumType *pgNumType
@@ -59,10 +57,14 @@ type docGrid struct {
 
 func newSectPr() *sectPr {
 	s := &sectPr{}
-	s.Header1 = &reference{Id: "rId6", Type: "even"}
-	s.Header2 = &reference{Id: "rId7", Type: "default"}
-	s.Footer1 = &reference{Id: "rId8", Type: "even"}
-	s.Footer2 = &reference{Id: "rId9", Type: "default"}
+	hrf1 := &reference{Id: "rId6", Type: "even"}
+	hrf2 := &reference{Id: "rId7", Type: "default"}
+	s.Header = append(s.Header, hrf1)
+	s.Header = append(s.Header, hrf2)
+	frf1 := &reference{Id: "rId8", Type: "even"}
+	frf2 := &reference{Id: "rId9", Type: "default"}
+	s.Footer = append(s.Footer, frf1)
+	s.Footer = append(s.Footer, frf2)
 	s.PgSz = &pgSz{W: "11906", H: "16838", Code: "9"}
 	s.PgMar = &pgMar{Top: "1440", Right: "1797", Bottom: "1440", Left: "1797", Header: "851", Footer: "992", Gutter: "0"}
 	s.PgNumType = &pgNumType{Start: "1"}
