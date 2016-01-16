@@ -32,6 +32,9 @@ func NewDocXml(fpath string) (*docXml, error) {
 	if err := d.Settings(d.Dir); err != nil {
 		fmt.Println("settings:", err)
 	}
+	if err := d.Styles(d.Dir); err != nil {
+		fmt.Println("styles:", err)
+	}
 	return d, nil
 }
 
@@ -70,6 +73,18 @@ func (d *docXml) FontTable(dirpath string) error {
 }
 func (d *docXml) Settings(dirpath string) error {
 	f := word.NewSettings()
+	if err := f.Save(dirpath); err != nil {
+		return err
+	}
+
+	if err := word.NewWebSettings().Save(dirpath); err != nil {
+		return err
+	}
+
+	return nil
+}
+func (d *docXml) Styles(dirpath string) error {
+	f := word.NewStyles()
 	return f.Save(dirpath)
 }
 

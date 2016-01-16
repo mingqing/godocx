@@ -12,6 +12,7 @@ type RunFonts struct {
 	EastAsiaTheme string   `xml:"w:eastAsiaTheme,attr,omitempty"`
 	HansiTheme    string   `xml:"w:hAnsiTheme,attr,omitempty"`
 	Hint          string   `xml:"w:hint,attr,omitempty"`
+	Cstheme       string   `xml:"w:cstheme,attr,omitempty"`
 }
 
 func NewRunFonts() *RunFonts {

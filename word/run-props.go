@@ -8,10 +8,12 @@ import (
 type RunProperties struct {
 	XMLName xml.Name `xml:"w:rPr"`
 	Content []interface{}
+	K       *settingVal `xml:"w:kern"`
 	B       *Bold
 	I       *Italics
 	Sz      *Fontsize
 	SzCs    *ComplexScriptFontsize
+	Lang    *lang
 }
 
 func NewRunProperties() *RunProperties {
@@ -48,4 +50,17 @@ func (r *RunProperties) ComplexScriptFontsize(size string) {
 	} else {
 		r.SzCs.Val = size
 	}
+}
+
+func (r *RunProperties) Kern(val string) {
+	if r.K == nil {
+		r.K = &settingVal{}
+	}
+	r.K.Val = val
+}
+
+func (r *RunProperties) AddLang() *lang {
+	obj := NewLang()
+	r.Content = append(r.Content, obj)
+	return obj
 }
