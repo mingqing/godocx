@@ -25,9 +25,9 @@ type reference struct {
 
 type pgSz struct {
 	XMLName xml.Name `xml:"w:pgSz"`
-	W       `xml:"w:w,attr,omitempty"`
-	H       `xml:"w:h,attr,omitempty"`
-	Code    `xml:"w:code,attr,omitempty"`
+	W       string   `xml:"w:w,attr,omitempty"`
+	H       string   `xml:"w:h,attr,omitempty"`
+	Code    string   `xml:"w:code,attr,omitempty"`
 }
 
 type pgMar struct {
@@ -59,10 +59,10 @@ type docGrid struct {
 
 func newSectPr() *sectPr {
 	s := &sectPr{}
-	s.Header1 = &reference{Id: "rId6", "even"}
-	s.Header2 = &reference{Id: "rId7", "default"}
-	s.Footer1 = &reference{Id: "rId8", "even"}
-	s.Footer2 = &reference{Id: "rId9", "default"}
+	s.Header1 = &reference{Id: "rId6", Type: "even"}
+	s.Header2 = &reference{Id: "rId7", Type: "default"}
+	s.Footer1 = &reference{Id: "rId8", Type: "even"}
+	s.Footer2 = &reference{Id: "rId9", Type: "default"}
 	s.PgSz = &pgSz{W: "11906", H: "16838", Code: "9"}
 	s.PgMar = &pgMar{Top: "1440", Right: "1797", Bottom: "1440", Left: "1797", Header: "851", Footer: "992", Gutter: "0"}
 	s.PgNumType = &pgNumType{Start: "1"}
