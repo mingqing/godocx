@@ -29,6 +29,9 @@ func NewDocXml(fpath string) (*docXml, error) {
 	if err := d.FontTable(d.Dir); err != nil {
 		fmt.Println("font table:", err)
 	}
+	if err := d.Settings(d.Dir); err != nil {
+		fmt.Println("settings:", err)
+	}
 	return d, nil
 }
 
@@ -63,6 +66,10 @@ func (d *docXml) FootEndNotes(dirpath string) error {
 }
 func (d *docXml) FontTable(dirpath string) error {
 	f := word.NewFontTable()
+	return f.Save(dirpath)
+}
+func (d *docXml) Settings(dirpath string) error {
+	f := word.NewSettings()
 	return f.Save(dirpath)
 }
 

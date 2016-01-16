@@ -22,8 +22,8 @@ type Endnotes struct {
 
 type endnote struct {
 	XMLName xml.Name `xml:"w:endnote"`
-	Type    string   `xml:"w:type,attr"`
-	Id      string   `xml:"w:id,attr"`
+	Type    string   `xml:"w:type,attr,omitempty"`
+	Id      string   `xml:"w:id,attr,omitempty"`
 	P       *Paragraph
 }
 
