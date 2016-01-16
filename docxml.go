@@ -27,13 +27,16 @@ func NewDocXml(fpath string) (*docXml, error) {
 	d.Rels(d.Dir)
 	d.FootEndNotes(d.Dir)
 	if err := d.FontTable(d.Dir); err != nil {
-		fmt.Println("font table:", err)
+		return d, err
 	}
 	if err := d.Settings(d.Dir); err != nil {
-		fmt.Println("settings:", err)
+		return d, err
 	}
 	if err := d.Styles(d.Dir); err != nil {
-		fmt.Println("styles:", err)
+		return d, err
+	}
+	if err := d.TempXml(d.Dir); err != nil {
+		return d, err
 	}
 	return d, nil
 }
@@ -86,6 +89,20 @@ func (d *docXml) Settings(dirpath string) error {
 func (d *docXml) Styles(dirpath string) error {
 	f := word.NewStyles()
 	return f.Save(dirpath)
+}
+func (d *docXml) TempXml(dirpath string) error {
+	h := word.NewHeader()
+	h.SaveHeader1(dirpath)
+	h.SaveHeader2(dirpath)
+
+	f := word.NewFooter()
+	f.SaveFooter1(dirpath)
+	f.SaveFooter2(dirpath)
+
+	t := word.NewTheme()
+	t.SaveTheme1(dirpath)
+
+	return nil
 }
 
 func (d *docXml) Test() {
