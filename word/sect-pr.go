@@ -18,7 +18,7 @@ type sectPr struct {
 
 type reference struct {
 	Id   string `xml:"r:id,attr,omitempty"`
-	Type string `xml:"r:type,attr,omitempty"`
+	Type string `xml:"w:type,attr,omitempty"`
 }
 
 type pgSz struct {
