@@ -18,6 +18,7 @@ type Document struct {
 	XmlnsW   string   `xml:"xmlns:w,attr,omitempty"`
 	XmlnsWne string   `xml:"xmlns:wne,attr,omitempty"`
 	Body     Body
+	rels     *relationships
 }
 
 func NewDocument() *Document {
@@ -32,6 +33,8 @@ func NewDocument() *Document {
 	d.XmlnsWp = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
 	d.XmlnsW10 = "urn:schemas-microsoft-com:office:word"
 	d.XmlnsWne = "http://schemas.microsoft.com/office/word/2006/wordml"
+
+	d.rels = newRelationships()
 
 	return d
 }
@@ -48,7 +51,13 @@ func (d *Document) AddTable() *Table {
 	return tbl
 }
 
+func (d *Document) SectPr() {
+	// Step 1; create word/_rels/document.xml.rels
+}
+
 func (d *Document) Save(dirpath string) error {
+	d.rels.save(dirpath)
+
 	fpath := path.Join(dirpath, "word")
 	os.Mkdir(fpath, os.ModePerm)
 
