@@ -8,14 +8,14 @@ import (
 
 type Document struct {
 	XMLName  xml.Name `xml:"w:document"`
+	XmlnsVe  string   `xml:"xmlns:ve,attr,omitempty"`
 	XmlnsO   string   `xml:"xmlns:o,attr,omitempty"`
 	XmlnsR   string   `xml:"xmlns:r,attr,omitempty"`
 	XmlnsM   string   `xml:"xmlns:m,attr,omitempty"`
 	XmlnsV   string   `xml:"xmlns:v,attr,omitempty"`
-	XmlnsW   string   `xml:"xmlns:w,attr,omitempty"`
-	XmlnsVe  string   `xml:"xmlns:ve,attr,omitempty"`
 	XmlnsWp  string   `xml:"xmlns:wp,attr,omitempty"`
 	XmlnsW10 string   `xml:"xmlns:w10,attr,omitempty"`
+	XmlnsW   string   `xml:"xmlns:w,attr,omitempty"`
 	XmlnsWne string   `xml:"xmlns:wne,attr,omitempty"`
 	Body     Body
 }
