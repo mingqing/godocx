@@ -3,6 +3,7 @@ package godocx
 import (
 	"encoding/xml"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mingqing/godocx/word"
@@ -13,14 +14,13 @@ type DocXml struct {
 	Name string
 }
 
-func NewDocXml(fpath string) (*DocXml, error) {
-	d := &DocXml{Dir: filepath.Dir(fpath), Name: filepath.Base(fpath)}
+func NewDocXml(workDir, name string) (*DocXml, error) {
+	d := &DocXml{Dir: workDir, Name: name}
 	if err := MustNotExistAndCreate(d.Dir); err != nil {
-		fmt.Println("err:", err)
 		return nil, err
 	}
 
-	fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
+	//fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
 
 	d.ContentType(d.Dir)
 	d.DocProps(d.Dir)
@@ -39,6 +39,21 @@ func NewDocXml(fpath string) (*DocXml, error) {
 		return d, err
 	}
 	return d, nil
+}
+
+func (d *DocXml) SaveAndClean() error {
+	docx, err := NewDocxFile(d.Name)
+	if err != nil {
+		return err
+	}
+
+	if err := docx.CombineTo(d.Dir, filepath.Dir(d.Dir)); err != nil {
+		return err
+	}
+
+	os.RemoveAll(d.Dir)
+
+	return nil
 }
 
 func (d *DocXml) Document() *word.Document {
