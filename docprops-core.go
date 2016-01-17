@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"os"
 	"path"
+	"time"
 	//"fmt"
 )
 
@@ -14,15 +15,15 @@ type docPropsCore struct {
 	XmlnsDcterms   string   `xml:"xmlns:dcterms,attr"`
 	XmlnsDcmitype  string   `xml:"xmlns:dcmitype,attr"`
 	XmlnsXsi       string   `xml:"xmlns:xsi,attr"`
-	Title          string   `xml:"dc:title"`
-	Subject        string   `xml:"dc:subject"`
 	Creator        string   `xml:"dc:creator"`
-	Keywords       string   `xml:"cp:keywords"`
-	Description    string   `xml:"dc:description"`
 	LastModifiedBy string   `xml:"cp:lastModifiedBy"`
 	Revision       string   `xml:"cp:revision"`
 	Created        string   `xml:"dcterms:created"`
 	Modified       string   `xml:"dcterms:modified"`
+	//Title          string   `xml:"dc:title"`
+	//Subject        string   `xml:"dc:subject"`
+	//Keywords       string `xml:"cp:keywords"`
+	//Description    string `xml:"dc:description"`
 }
 
 func newDocPropsCore() *docPropsCore {
@@ -35,8 +36,12 @@ func newDocPropsCore() *docPropsCore {
 	c.Creator = "godocx"
 	c.LastModifiedBy = "godocx"
 	c.Revision = "11"
-	c.Created = "2016-01-11T07:16:00Z"
-	c.Modified = "2016-01-11T07:16:00Z"
+
+	nowTimeStr := time.Now().Format(time.RFC3339)
+	c.Created = nowTimeStr
+	c.Modified = nowTimeStr
+	//c.Created = "2016-01-11T07:16:00Z"
+	//c.Modified = "2016-01-11T07:16:00Z"
 
 	return c
 }
