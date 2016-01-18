@@ -18,12 +18,19 @@ type docPropsCore struct {
 	Creator        string   `xml:"dc:creator"`
 	LastModifiedBy string   `xml:"cp:lastModifiedBy"`
 	Revision       string   `xml:"cp:revision"`
-	Created        string   `xml:"dcterms:created"`
-	Modified       string   `xml:"dcterms:modified"`
+	Created        *dcTerms `xml:"dcterms:created"`
+	Modified       *dcTerms `xml:"dcterms:modified"`
+	//Created        string   `xml:"dcterms:created"`
+	//Modified       string   `xml:"dcterms:modified"`
 	//Title          string   `xml:"dc:title"`
 	//Subject        string   `xml:"dc:subject"`
 	//Keywords       string `xml:"cp:keywords"`
 	//Description    string `xml:"dc:description"`
+}
+
+type dcTerms struct {
+	Xsi  string `xml:"xsi:type,attr"`
+	Time string `xml:",chardata"`
 }
 
 func newDocPropsCore() *docPropsCore {
@@ -33,15 +40,14 @@ func newDocPropsCore() *docPropsCore {
 	c.XmlnsDcterms = "http://purl.org/dc/terms/"
 	c.XmlnsDcmitype = "http://purl.org/dc/dcmitype/"
 	c.XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance"
+
 	c.Creator = "godocx"
+	c.Revision = "1"
 	c.LastModifiedBy = "godocx"
-	c.Revision = "11"
 
 	nowTimeStr := time.Now().Format(time.RFC3339)
-	c.Created = nowTimeStr
-	c.Modified = nowTimeStr
-	//c.Created = "2016-01-11T07:16:00Z"
-	//c.Modified = "2016-01-11T07:16:00Z"
+	c.Created = &dcTerms{Xsi: "dcterms:W3CDTF", Time: nowTimeStr}
+	c.Modified = &dcTerms{Xsi: "dcterms:W3CDTF", Time: nowTimeStr}
 
 	return c
 }
