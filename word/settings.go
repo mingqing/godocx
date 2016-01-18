@@ -8,13 +8,13 @@ import (
 
 type Settings struct {
 	XMLName                           xml.Name `xml:"w:settings"`
-	XmlnsO                            string   `xml:"xmln:o,attr,omitempty"`
-	XmlnsR                            string   `xml:"xmln:r,attr,omitempty"`
-	XmlnsM                            string   `xml:"xmln:m,attr,omitempty"`
-	XmlnsV                            string   `xml:"xmln:v,attr,omitempty"`
-	XmlnsW10                          string   `xml:"xmln:w10,attr,omitempty"`
-	XmlnsW                            string   `xml:"xmln:w,attr,omitempty"`
-	XmlnsSl                           string   `xml:"xmln:sl,attr,omitempty"`
+	XmlnsO                            string   `xml:"xmlns:o,attr,omitempty"`
+	XmlnsR                            string   `xml:"xmlns:r,attr,omitempty"`
+	XmlnsM                            string   `xml:"xmlns:m,attr,omitempty"`
+	XmlnsV                            string   `xml:"xmlns:v,attr,omitempty"`
+	XmlnsW10                          string   `xml:"xmlns:w10,attr,omitempty"`
+	XmlnsW                            string   `xml:"xmlns:w,attr,omitempty"`
+	XmlnsSl                           string   `xml:"xmlns:sl,attr,omitempty"`
 	Zoom                              *zoom
 	MirrorMargins                     string `xml:"w:mirrorMargins"`
 	BordersDoNotSurroundHeader        string `xml:"w:bordersDoNotSurroundHeader"`

@@ -8,8 +8,8 @@ import (
 
 type FontTable struct {
 	XMLName xml.Name `xml:"w:fonts"`
-	XmlnsR  string   `xml:"w:xmln:r,attr,omitempty"`
-	XmlnsW  string   `xml:"w:xmln:w,attr,omitempty"`
+	XmlnsR  string   `xml:"xmlns:r,attr,omitempty"`
+	XmlnsW  string   `xml:"xmlns:w,attr,omitempty"`
 	Content []interface{}
 }
 

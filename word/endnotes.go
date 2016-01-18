@@ -8,15 +8,15 @@ import (
 
 type Endnotes struct {
 	XMLName  xml.Name `xml:"w:endnotes"`
-	XmlnsVe  string   `xml:"xmln:ve,attr,omitempty"`
-	XmlnsO   string   `xml:"xmln:o,attr,omitempty"`
-	XmlnsR   string   `xml:"xmln:r,attr,omitempty"`
-	XmlnsM   string   `xml:"xmln:m,attr,omitempty"`
-	XmlnsV   string   `xml:"xmln:v,attr,omitempty"`
-	XmlnsWp  string   `xml:"xmln:wp,attr,omitempty"`
-	XmlnsW10 string   `xml:"xmln:w10,attr,omitempty"`
-	XmlnsW   string   `xml:"xmln:w,attr,omitempty"`
-	XmlnsWne string   `xml:"xmln:wne,attr,omitempty"`
+	XmlnsVe  string   `xml:"xmlns:ve,attr,omitempty"`
+	XmlnsO   string   `xml:"xmlns:o,attr,omitempty"`
+	XmlnsR   string   `xml:"xmlns:r,attr,omitempty"`
+	XmlnsM   string   `xml:"xmlns:m,attr,omitempty"`
+	XmlnsV   string   `xml:"xmlns:v,attr,omitempty"`
+	XmlnsWp  string   `xml:"xmlns:wp,attr,omitempty"`
+	XmlnsW10 string   `xml:"xmlns:w10,attr,omitempty"`
+	XmlnsW   string   `xml:"xmlns:w,attr,omitempty"`
+	XmlnsWne string   `xml:"xmlns:wne,attr,omitempty"`
 	Content  []interface{}
 }
 

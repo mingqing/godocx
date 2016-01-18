@@ -8,8 +8,8 @@ import (
 
 type WebSettings struct {
 	XMLName            xml.Name `xml:"w:webSettings"`
-	XmlnsR             string   `xml:"xmln:r,attr,omitempty"`
-	XmlnsW             string   `xml:"xmln:w,attr,omitempty"`
+	XmlnsR             string   `xml:"xmlns:r,attr,omitempty"`
+	XmlnsW             string   `xml:"xmlns:w,attr,omitempty"`
 	OptimizeForBrowser string   `xml:"w:optimizeForBrowser"`
 	RelyOnVML          string   `xml:"w:relyOnVML"`
 	AllowPNG           string   `xml:"w:allowPNG"`
