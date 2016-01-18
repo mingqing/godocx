@@ -9,8 +9,8 @@ import (
 
 type Styles struct {
 	XMLName      xml.Name `xml:"w:styles"`
-	XmlnsR       string   `xml:"w:xmln:r,attr,omitempty"`
-	XmlnsW       string   `xml:"w:xmln:w,attr,omitempty"`
+	XmlnsR       string   `xml:"xmln:r,attr,omitempty"`
+	XmlnsW       string   `xml:"xmln:w,attr,omitempty"`
 	DocDefaults  *docDefaults
 	LatentStyles *latentStyles
 	Style        []*wStyle

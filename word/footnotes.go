@@ -8,15 +8,15 @@ import (
 
 type Footnotes struct {
 	XMLName  xml.Name `xml:"w:footnotes"`
-	XmlnsVe  string   `xml:"w:xmln:ve,attr,omitempty"`
-	XmlnsO   string   `xml:"w:xmln:o,attr,omitempty"`
-	XmlnsR   string   `xml:"w:xmln:r,attr,omitempty"`
-	XmlnsM   string   `xml:"w:xmln:m,attr,omitempty"`
-	XmlnsV   string   `xml:"w:xmln:v,attr,omitempty"`
-	XmlnsWp  string   `xml:"w:xmln:wp,attr,omitempty"`
-	XmlnsW10 string   `xml:"w:xmln:w10,attr,omitempty"`
-	XmlnsW   string   `xml:"w:xmln:w,attr,omitempty"`
-	XmlnsWne string   `xml:"w:xmln:wne,attr,omitempty"`
+	XmlnsVe  string   `xml:"xmln:ve,attr,omitempty"`
+	XmlnsO   string   `xml:"xmln:o,attr,omitempty"`
+	XmlnsR   string   `xml:"xmln:r,attr,omitempty"`
+	XmlnsM   string   `xml:"xmln:m,attr,omitempty"`
+	XmlnsV   string   `xml:"xmln:v,attr,omitempty"`
+	XmlnsWp  string   `xml:"xmln:wp,attr,omitempty"`
+	XmlnsW10 string   `xml:"xmln:w10,attr,omitempty"`
+	XmlnsW   string   `xml:"xmln:w,attr,omitempty"`
+	XmlnsWne string   `xml:"xmln:wne,attr,omitempty"`
 	Content  []interface{}
 }
 

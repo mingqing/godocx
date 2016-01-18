@@ -8,13 +8,13 @@ import (
 
 type Settings struct {
 	XMLName                           xml.Name `xml:"w:settings"`
-	XmlnsO                            string   `xml:"w:xmln:o,attr,omitempty"`
-	XmlnsR                            string   `xml:"w:xmln:r,attr,omitempty"`
-	XmlnsM                            string   `xml:"w:xmln:m,attr,omitempty"`
-	XmlnsV                            string   `xml:"w:xmln:v,attr,omitempty"`
-	XmlnsW10                          string   `xml:"w:xmln:w10,attr,omitempty"`
-	XmlnsW                            string   `xml:"w:xmln:w,attr,omitempty"`
-	XmlnsSl                           string   `xml:"w:xmln:sl,attr,omitempty"`
+	XmlnsO                            string   `xml:"xmln:o,attr,omitempty"`
+	XmlnsR                            string   `xml:"xmln:r,attr,omitempty"`
+	XmlnsM                            string   `xml:"xmln:m,attr,omitempty"`
+	XmlnsV                            string   `xml:"xmln:v,attr,omitempty"`
+	XmlnsW10                          string   `xml:"xmln:w10,attr,omitempty"`
+	XmlnsW                            string   `xml:"xmln:w,attr,omitempty"`
+	XmlnsSl                           string   `xml:"xmln:sl,attr,omitempty"`
 	Zoom                              *zoom
 	MirrorMargins                     string `xml:"w:mirrorMargins"`
 	BordersDoNotSurroundHeader        string `xml:"w:bordersDoNotSurroundHeader"`
@@ -207,7 +207,7 @@ func (n *Settings) Save(dirpath string) error {
 		return err
 	}
 
-	f, err := os.Create(path.Join(fpath, "setting.xml"))
+	f, err := os.Create(path.Join(fpath, "settings.xml"))
 	if err != nil {
 		return err
 	}
