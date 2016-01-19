@@ -38,6 +38,12 @@ func NewDocument(home string) *Document {
 	d.rels = newRelationships()
 	d.home = home
 
+	fpath := path.Join(home, "word")
+	os.Mkdir(fpath, os.ModePerm)
+
+	os.Mkdir(path.Join(fpath, "_rels"), os.ModePerm)
+	os.Mkdir(path.Join(fpath, "media"), os.ModePerm)
+
 	return d
 }
 

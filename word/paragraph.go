@@ -56,9 +56,18 @@ func (p *Paragraph) AddPictFromFile(fpath string) {
 
 	title := "image-" + id
 
+	relObj := relationship{}
+	relObj.Id = id
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
+	relObj.Target = "media/" + title + ".png"
+	p.rels.Relationship = append(p.rels.Relationship, relObj)
+
 	imagepath := p.home + "/word/media/" + title + ".png"
 	fmt.Println("image path:", imagepath)
-	outFile, _ := os.Create(imagepath)
+	outFile, err := os.Create(imagepath)
+	if err != nil {
+		fmt.Println("save file error:", err)
+	}
 	defer outFile.Close()
 
 	b := bufio.NewWriter(outFile)
