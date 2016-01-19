@@ -1,7 +1,15 @@
 package word
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/xml"
+	"fmt"
+	"image/png"
+	"io/ioutil"
+	"os"
+
+	"github.com/pborman/uuid"
 )
 
 type Paragraph struct {
@@ -11,6 +19,8 @@ type Paragraph struct {
 	RsidRPr      string   `xml:"w:rsidRPr,attr,omitempty"`
 	RsidRDefault string   `xml:"w:rsidRDefault,attr,omitempty"`
 	Content      []interface{}
+	rels         *relationships
+	home         string
 }
 
 func NewParagraph() *Paragraph {
@@ -27,4 +37,39 @@ func (p *Paragraph) AddRunContent() *RunContent {
 	r := NewRunContent()
 	p.Content = append(p.Content, r)
 	return r
+}
+
+// 未完成
+func (p *Paragraph) AddPictFromFile(fpath string) {
+	randomId := uuid.NewUUID()
+	id := randomId.String()
+
+	fmt.Println("p home:", p.home)
+	rawByte, err := ioutil.ReadFile(fpath)
+	if err != nil {
+		fmt.Println("read file error:", err)
+	}
+	img, err := png.Decode(bytes.NewBuffer(rawByte))
+	if err != nil {
+		fmt.Println("read file error:", err)
+	}
+
+	title := "image-" + id
+
+	imagepath := p.home + "/word/media/" + title + ".png"
+	fmt.Println("image path:", imagepath)
+	outFile, _ := os.Create(imagepath)
+	defer outFile.Close()
+
+	b := bufio.NewWriter(outFile)
+	png.Encode(b, img)
+	b.Flush()
+
+	rt := img.Bounds()
+	width := float64(rt.Max.X)
+	height := float64(rt.Max.Y)
+
+	r := NewRunContent()
+	r.AddPict(id, title, width, height)
+	p.Content = append(p.Content, r)
 }

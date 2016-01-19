@@ -57,7 +57,7 @@ func (d *DocXml) SaveAndClean() error {
 }
 
 func (d *DocXml) Document() *word.Document {
-	return word.NewDocument()
+	return word.NewDocument(d.Dir)
 }
 func (d *DocXml) ContentType(dirpath string) error {
 	c := newContentType()
@@ -128,7 +128,7 @@ func (d *DocXml) Test() {
 				fmt.Printf("error: %v\n", err)
 			}
 	*/
-	document := word.NewDocument()
+	document := word.NewDocument(d.Dir)
 	d.Text1(document)
 	//d.Text2(document)
 	//d.Text3(document)

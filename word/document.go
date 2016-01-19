@@ -19,9 +19,10 @@ type Document struct {
 	XmlnsWne string   `xml:"xmlns:wne,attr,omitempty"`
 	Body     Body
 	rels     *relationships
+	home     string
 }
 
-func NewDocument() *Document {
+func NewDocument(home string) *Document {
 	d := &Document{}
 
 	d.XmlnsO = "urn:schemas-microsoft-com:office:office"
@@ -35,12 +36,15 @@ func NewDocument() *Document {
 	d.XmlnsWne = "http://schemas.microsoft.com/office/word/2006/wordml"
 
 	d.rels = newRelationships()
+	d.home = home
 
 	return d
 }
 
 func (d *Document) AddParagraph() *Paragraph {
 	paragh := NewParagraph()
+	paragh.rels = d.rels
+	paragh.home = d.home
 	d.Body.Content = append(d.Body.Content, paragh)
 	return paragh
 }
