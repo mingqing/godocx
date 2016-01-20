@@ -67,10 +67,9 @@ func (p *Paragraph) AddPictFromFile(fpath string) (*PictObject, error) {
 
 	imgId := uuid.NewUUID().String()
 	imgTitle := "image-" + imgId
-	relObj := relationship{}
-	relObj.Id = imgId
-	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
-	relObj.Target = "media/" + imgTitle + imgExt
+	relObj := relationship{Id: imgId,
+		Type:   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+		Target: "media/" + imgTitle + imgExt}
 	p.rels.Relationship = append(p.rels.Relationship, relObj)
 
 	imgPath := p.home + "/word/media/" + imgTitle + imgExt
