@@ -4,10 +4,15 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/xml"
-	"fmt"
+	"errors"
+	"image"
+	"image/jpeg"
 	"image/png"
 	"io/ioutil"
 	"os"
+	"path"
+	"strings"
+	//"fmt"
 
 	"github.com/pborman/uuid"
 )
@@ -40,45 +45,56 @@ func (p *Paragraph) AddRunContent() *RunContent {
 }
 
 // 未完成
-func (p *Paragraph) AddPictFromFile(fpath string) {
-	randomId := uuid.NewUUID()
-	id := randomId.String()
-
-	fmt.Println("p home:", p.home)
+func (p *Paragraph) AddPictFromFile(fpath string) (*PictObject, error) {
 	rawByte, err := ioutil.ReadFile(fpath)
 	if err != nil {
-		fmt.Println("read file error:", err)
+		return nil, err
 	}
-	img, err := png.Decode(bytes.NewBuffer(rawByte))
+
+	var imgObj image.Image
+	imgExt := strings.ToLower(path.Ext(fpath))
+	switch imgExt {
+	case ".png":
+		imgObj, err = png.Decode(bytes.NewBuffer(rawByte))
+	case ".jpeg", ".jpg":
+		imgObj, err = jpeg.Decode(bytes.NewBuffer(rawByte))
+	default:
+		return nil, errors.New("not support picture")
+	}
 	if err != nil {
-		fmt.Println("read file error:", err)
+		return nil, err
 	}
 
-	title := "image-" + id
-
+	imgId := uuid.NewUUID().String()
+	imgTitle := "image-" + imgId
 	relObj := relationship{}
-	relObj.Id = id
+	relObj.Id = imgId
 	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
-	relObj.Target = "media/" + title + ".png"
+	relObj.Target = "media/" + imgTitle + imgExt
 	p.rels.Relationship = append(p.rels.Relationship, relObj)
 
-	imagepath := p.home + "/word/media/" + title + ".png"
-	fmt.Println("image path:", imagepath)
-	outFile, err := os.Create(imagepath)
+	imgPath := p.home + "/word/media/" + imgTitle + imgExt
+	outFile, err := os.Create(imgPath)
 	if err != nil {
-		fmt.Println("save file error:", err)
+		return nil, err
 	}
 	defer outFile.Close()
 
 	b := bufio.NewWriter(outFile)
-	png.Encode(b, img)
+	png.Encode(b, imgObj)
 	b.Flush()
 
-	rt := img.Bounds()
+	rt := imgObj.Bounds()
 	width := float64(rt.Max.X)
 	height := float64(rt.Max.Y)
 
 	r := NewRunContent()
-	r.AddPict(id, title, width, height)
+	pict := r.AddPict(imgId, imgTitle, width, height)
 	p.Content = append(p.Content, r)
+
+	return pict, nil
+}
+
+func (p *Paragraph) AddPictFromBase64(content, format string) (*PictObject, error) {
+	return nil, nil
 }
