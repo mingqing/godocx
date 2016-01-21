@@ -1,20 +1,11 @@
 package word
 
 import (
-	"bufio"
-	"bytes"
+	"encoding/base64"
 	"encoding/xml"
-	"errors"
-	"image"
-	"image/jpeg"
-	"image/png"
 	"io/ioutil"
-	"os"
 	"path"
 	"strings"
-	//"fmt"
-
-	"github.com/pborman/uuid"
 )
 
 type Paragraph struct {
@@ -44,56 +35,71 @@ func (p *Paragraph) AddRunContent() *RunContent {
 	return r
 }
 
-// 未完成
 func (p *Paragraph) AddPictFromFile(fpath string) (*PictObject, error) {
 	rawByte, err := ioutil.ReadFile(fpath)
 	if err != nil {
 		return nil, err
 	}
 
-	var imgObj image.Image
 	imgExt := strings.ToLower(path.Ext(fpath))
-	switch imgExt {
-	case ".png":
-		imgObj, err = png.Decode(bytes.NewBuffer(rawByte))
-	case ".jpeg", ".jpg":
-		imgObj, err = jpeg.Decode(bytes.NewBuffer(rawByte))
-	default:
-		return nil, errors.New("not support picture")
-	}
+
+	r := NewRunContent()
+	pict := r.AddPict(rawByte, imgExt)
+	imgObj, err := pict.GetImage()
 	if err != nil {
 		return nil, err
 	}
 
-	imgId := uuid.NewUUID().String()
-	imgTitle := "image-" + imgId
-	relObj := relationship{Id: imgId,
+	imgTitle := pict.GetTitle()
+	relObj := relationship{Id: pict.GetId(),
 		Type:   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
 		Target: "media/" + imgTitle + imgExt}
 	p.rels.Relationship = append(p.rels.Relationship, relObj)
 
 	imgPath := p.home + "/word/media/" + imgTitle + imgExt
-	outFile, err := os.Create(imgPath)
-	if err != nil {
-		return nil, err
-	}
-	defer outFile.Close()
-
-	b := bufio.NewWriter(outFile)
-	png.Encode(b, imgObj)
-	b.Flush()
+	pict.SaveFileTo(imgPath)
 
 	rt := imgObj.Bounds()
 	width := float64(rt.Max.X)
 	height := float64(rt.Max.Y)
+	pict.Style(width, height)
 
-	r := NewRunContent()
-	pict := r.AddPict(imgId, imgTitle, width, height)
 	p.Content = append(p.Content, r)
-
 	return pict, nil
 }
 
-func (p *Paragraph) AddPictFromBase64(content, format string) (*PictObject, error) {
-	return nil, nil
+func (p *Paragraph) AddPictFromBase64(content, format string, width, height float64) (*PictObject, error) {
+	rawByte, err := base64.StdEncoding.DecodeString(content)
+	if err != nil {
+		return nil, err
+	}
+
+	imgExt := "." + format
+
+	r := NewRunContent()
+	pict := r.AddPict(rawByte, imgExt)
+	imgObj, err := pict.GetImage()
+	if err != nil {
+		return nil, err
+	}
+
+	imgTitle := pict.GetTitle()
+	relObj := relationship{Id: pict.GetId(),
+		Type:   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+		Target: "media/" + imgTitle + imgExt}
+	p.rels.Relationship = append(p.rels.Relationship, relObj)
+
+	imgPath := p.home + "/word/media/" + imgTitle + imgExt
+	pict.SaveFileTo(imgPath)
+
+	if width == 0 && height == 0 {
+		rt := imgObj.Bounds()
+		width = float64(rt.Max.X)
+		height = float64(rt.Max.Y)
+	}
+
+	pict.Style(width, height)
+
+	p.Content = append(p.Content, r)
+	return pict, nil
 }

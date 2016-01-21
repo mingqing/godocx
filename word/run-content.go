@@ -30,8 +30,8 @@ func (r *RunContent) Insert(obj interface{}) {
 	r.Content = append(r.Content, obj)
 }
 
-func (r *RunContent) AddPict(id, title string, width, height float64) *PictObject {
-	pict := newPictObject(id, title, width, height)
+func (r *RunContent) AddPict(data []byte, format string) *PictObject {
+	pict := newPictObject(data, format)
 	r.Content = append(r.Content, pict)
 	return pict
 }
