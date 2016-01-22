@@ -14,6 +14,7 @@ type RunProperties struct {
 	Sz      *Fontsize
 	SzCs    *ComplexScriptFontsize
 	Lang    *lang
+	VA      *settingVal `xml:"w:vertAlign"`
 }
 
 func NewRunProperties() *RunProperties {
@@ -63,4 +64,11 @@ func (r *RunProperties) AddLang() *lang {
 	obj := NewLang()
 	r.Content = append(r.Content, obj)
 	return obj
+}
+
+func (r *RunProperties) VertAlign(val string) {
+	if r.VA == nil {
+		r.VA = &settingVal{}
+	}
+	r.VA.Val = val
 }
