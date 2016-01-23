@@ -15,6 +15,7 @@ type RunProperties struct {
 	SzCs    *ComplexScriptFontsize
 	Lang    *lang
 	VA      *settingVal `xml:"w:vertAlign"`
+	Post    *settingVal `xml:"w:position"`
 }
 
 func NewRunProperties() *RunProperties {
@@ -44,7 +45,6 @@ func (r *RunProperties) Fontsize(size string) {
 		r.Sz.Val = size
 	}
 }
-
 func (r *RunProperties) ComplexScriptFontsize(size string) {
 	if r.SzCs == nil {
 		r.SzCs = &ComplexScriptFontsize{Val: size}
@@ -71,4 +71,10 @@ func (r *RunProperties) VertAlign(val string) {
 		r.VA = &settingVal{}
 	}
 	r.VA.Val = val
+}
+func (r *RunProperties) Position(val string) {
+	if r.Post == nil {
+		r.Post = &settingVal{}
+	}
+	r.Post.Val = val
 }

@@ -23,9 +23,23 @@ type PictObject struct {
 }
 
 type imageShape struct {
-	XMLName xml.Name `xml:"v:shape"`
-	Style   string   `xml:"style,attr"`
-	Data    *imageData
+	XMLName  xml.Name `xml:"v:shape"`
+	Style    string   `xml:"style,attr"`
+	Stroke   *vStroke
+	Data     *imageData
+	Formulas *vFormulas
+	Path     *vPath
+}
+type vStroke struct {
+	XMLName   xml.Name `xml:"v:stroke"`
+	Joinstyle string   `xml:"joinstyle,attr"`
+}
+type vFormulas struct {
+	XMLName xml.Name `xml:"v:formulas"`
+}
+type vPath struct {
+	XMLName      xml.Name `xml:"v:path"`
+	Oconnecttype string   `xml:"o:connecttype,attr"`
 }
 
 type imageData struct {
@@ -37,19 +51,14 @@ type imageData struct {
 func newPictObject(data []byte, format string) *PictObject {
 	return &PictObject{data: data, format: format}
 }
-func newPictObject2(id, title string, width, height float64) *PictObject {
-	// convert to pt unit
-	style := fmt.Sprintf("width:%0.2fpt;height:%0.2fpt", width/1.333333, height/1.333333)
-
-	shape := &imageShape{Style: style,
-		Data: &imageData{Id: id, Title: title}}
-
-	return &PictObject{Shape: shape}
-}
 
 func (p *PictObject) Style(width, height float64) {
 	style := fmt.Sprintf("width:%0.2fpt;height:%0.2fpt", width/1.333333, height/1.333333)
-	shape := &imageShape{Style: style, Data: &imageData{Id: p.GetId(), Title: p.GetTitle()}}
+	shape := &imageShape{Style: style,
+		Stroke:   &vStroke{Joinstyle: "miter"},
+		Data:     &imageData{Id: p.GetId(), Title: p.GetTitle()},
+		Formulas: &vFormulas{},
+		Path:     &vPath{Oconnecttype: "segments"}}
 	p.Shape = shape
 }
 
