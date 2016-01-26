@@ -78,10 +78,6 @@ func newRelationships() *relationships {
 	relObj.Target = "theme/theme1.xml"
 	c.Relationship = append(c.Relationship, relObj)
 
-	relObj.Id = "rId12"
-	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
-	relObj.Target = "media/image1.png"
-	c.Relationship = append(c.Relationship, relObj)
 	return c
 }
 
