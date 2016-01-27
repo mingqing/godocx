@@ -82,13 +82,14 @@ func (p *PictObject) GetImage() (image.Image, error) {
 
 func (p *PictObject) GetId() string {
 	if p.uuid == "" {
-		p.uuid = uuid.NewUUID().String()
+		p.uuid = "rId" + uuid.NewUUID().String()
 	}
 	return p.uuid
 }
 
 func (p *PictObject) GetTitle() string {
-	return "image-" + p.GetId()
+	//return "image-" + p.GetId()
+	return p.GetId()
 }
 
 func (p *PictObject) SaveFileTo(imgPath string) error {
