@@ -54,6 +54,12 @@ func (d *Document) AddParagraph() *Paragraph {
 	d.Body.Content = append(d.Body.Content, paragh)
 	return paragh
 }
+func (d *Document) NewParagraph() *Paragraph {
+	paragh := NewParagraph()
+	paragh.rels = d.rels
+	paragh.home = d.home
+	return paragh
+}
 
 func (d *Document) AddTable() *Table {
 	tbl := NewTable()

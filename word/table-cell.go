@@ -48,3 +48,7 @@ func (t *TableCell) AddParagraph() *Paragraph {
 	t.P = NewParagraph()
 	return t.P
 }
+
+func (t *TableCell) Add(obj interface{}) {
+	t.Content = append(t.Content, obj)
+}
