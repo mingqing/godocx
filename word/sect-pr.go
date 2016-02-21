@@ -46,7 +46,9 @@ type pgNumType struct {
 
 type cols struct {
 	XMLName xml.Name `xml:"w:cols"`
-	Space   string   `xml:"w:space,attr"`
+	Num     string   `xml:"w:num,attr,omitempty`
+	Sep     string   `xml:"w:sep,attr,omitempty`
+	Space   string   `xml:"w:space,attr,omitempty"`
 }
 
 type docGrid struct {
@@ -69,6 +71,24 @@ func newSectPr() *sectPr {
 	s.PgMar = &pgMar{Top: "1440", Right: "1797", Bottom: "1440", Left: "1797", Header: "851", Footer: "992", Gutter: "0"}
 	s.PgNumType = &pgNumType{Start: "1"}
 	s.Cols = &cols{Space: "425"}
+	s.DocGrid = &docGrid{Type: "lines", LinePitch: "312"}
+
+	return s
+}
+
+func newSectPrB4() *sectPr {
+	s := &sectPr{}
+	hrf1 := &reference{Id: "rId6", Type: "even"}
+	hrf2 := &reference{Id: "rId7", Type: "default"}
+	s.Header = append(s.Header, hrf1)
+	s.Header = append(s.Header, hrf2)
+	frf1 := &reference{Id: "rId8", Type: "even"}
+	frf2 := &reference{Id: "rId9", Type: "default"}
+	s.Footer = append(s.Footer, frf1)
+	s.Footer = append(s.Footer, frf2)
+	s.PgSz = &pgSz{W: "20639", H: "14572", Code: "9"}
+	s.PgMar = &pgMar{Top: "1000", Right: "1797", Bottom: "1000", Left: "2797", Header: "851", Footer: "592", Gutter: "0"}
+	s.Cols = &cols{Num: "2", Seq: "1", Space: "425"}
 	s.DocGrid = &docGrid{Type: "lines", LinePitch: "312"}
 
 	return s
