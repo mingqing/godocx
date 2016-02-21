@@ -78,8 +78,8 @@ func newSectPr() *sectPr {
 
 func newSectPrB4() *sectPr {
 	s := &sectPr{}
-	hrf1 := &reference{Id: "rId12", Type: "even"}
-	hrf2 := &reference{Id: "rId13", Type: "default"}
+	hrf1 := &reference{Id: "rId6", Type: "even"}
+	hrf2 := &reference{Id: "rId7", Type: "default"}
 	s.Header = append(s.Header, hrf1)
 	s.Header = append(s.Header, hrf2)
 	frf1 := &reference{Id: "rId8", Type: "even"}

@@ -109,8 +109,6 @@ func (d *DocXml) TempXml(dirpath string) error {
 	h := word.NewHeader()
 	h.SaveHeader1(dirpath)
 	h.SaveHeader2(dirpath)
-	h.SaveHeader3(dirpath)
-	h.SaveHeader4(dirpath)
 
 	f := word.NewFooter()
 	f.SaveFooter1(dirpath)
