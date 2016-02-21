@@ -46,8 +46,8 @@ type pgNumType struct {
 
 type cols struct {
 	XMLName xml.Name `xml:"w:cols"`
-	Num     string   `xml:"w:num,attr,omitempty`
-	Sep     string   `xml:"w:sep,attr,omitempty`
+	Num     string   `xml:"w:num,attr,omitempty"`
+	Sep     string   `xml:"w:sep,attr,omitempty"`
 	Space   string   `xml:"w:space,attr,omitempty"`
 }
 
@@ -88,7 +88,7 @@ func newSectPrB4() *sectPr {
 	s.Footer = append(s.Footer, frf2)
 	s.PgSz = &pgSz{W: "20639", H: "14572", Code: "9"}
 	s.PgMar = &pgMar{Top: "1000", Right: "1797", Bottom: "1000", Left: "2797", Header: "851", Footer: "592", Gutter: "0"}
-	s.Cols = &cols{Num: "2", Seq: "1", Space: "425"}
+	s.Cols = &cols{Num: "2", Sep: "1", Space: "425"}
 	s.DocGrid = &docGrid{Type: "lines", LinePitch: "312"}
 
 	return s
