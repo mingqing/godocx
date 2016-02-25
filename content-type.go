@@ -56,6 +56,12 @@ func newContentType() *contentType {
 	overrideValues["/word/webSettings.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml"
 	overrideValues["/word/header1.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
 	overrideValues["/docProps/core.xml"] = "application/vnd.openxmlformats-package.core-properties+xml"
+	overrideValues["/word/header3.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/word/header4.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/word/header5.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/word/header6.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
+	overrideValues["/word/footer3.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
+	overrideValues["/word/footer4.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
 
 	overrideObj := typeOverride{}
 	for key, value := range overrideValues {
@@ -68,7 +74,7 @@ func newContentType() *contentType {
 }
 
 func (c *contentType) Save(dirpath string) error {
-	output, err := xml.MarshalIndent(c, "", "  ")
+	output, err := xml.MarshalIndent(c, "", "")
 	if err != nil {
 		return err
 	}

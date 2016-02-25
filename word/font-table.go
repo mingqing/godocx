@@ -82,7 +82,7 @@ func (n *FontTable) Save(dirpath string) error {
 	fpath := path.Join(dirpath, "word")
 	os.Mkdir(fpath, os.ModePerm)
 
-	output, err := xml.MarshalIndent(n, "", "  ")
+	output, err := xml.MarshalIndent(n, "", "")
 	if err != nil {
 		return err
 	}

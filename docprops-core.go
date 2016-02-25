@@ -56,7 +56,7 @@ func (c *docPropsCore) Save(dirpath string) error {
 	fpath := path.Join(dirpath, "docProps")
 	os.Mkdir(fpath, os.ModePerm)
 
-	output, err := xml.MarshalIndent(c, "", "  ")
+	output, err := xml.MarshalIndent(c, "", "")
 	if err != nil {
 		return err
 	}

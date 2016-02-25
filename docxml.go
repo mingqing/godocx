@@ -109,10 +109,16 @@ func (d *DocXml) TempXml(dirpath string) error {
 	h := word.NewHeader()
 	h.SaveHeader1(dirpath)
 	h.SaveHeader2(dirpath)
+	h.SaveHeader3(dirpath)
+	h.SaveHeader4(dirpath)
+	h.SaveHeader5(dirpath)
+	h.SaveHeader6(dirpath)
 
 	f := word.NewFooter()
 	f.SaveFooter1(dirpath)
 	f.SaveFooter2(dirpath)
+	f.SaveFooter3(dirpath)
+	f.SaveFooter4(dirpath)
 
 	t := word.NewTheme()
 	t.SaveTheme1(dirpath)
@@ -121,22 +127,8 @@ func (d *DocXml) TempXml(dirpath string) error {
 }
 
 func (d *DocXml) Test() {
-	/*
-		c := newContentType()
-			output, err := xml.MarshalIndent(c, "", "  ")
-			if err != nil {
-				fmt.Printf("error: %v\n", err)
-			}
-	*/
 	document := word.NewDocument(d.Dir)
 	d.Text1(document)
-	//d.Text2(document)
-	//d.Text3(document)
-	//d.Text4(document)
-	//d.Text5(document)
-	//d.Text6(document)
-	//d.Text7(document)
-	//d.Text8(document)
 
 	docByte, err := xml.MarshalIndent(document, "", "  ")
 	if err != nil {

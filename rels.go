@@ -44,7 +44,7 @@ func (c *relationships) Save(dirpath string) error {
 	fpath := path.Join(dirpath, "_rels")
 	os.Mkdir(fpath, os.ModePerm)
 
-	output, err := xml.MarshalIndent(c, "", "  ")
+	output, err := xml.MarshalIndent(c, "", "")
 	if err != nil {
 		return err
 	}

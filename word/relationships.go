@@ -78,6 +78,35 @@ func newRelationships() *relationships {
 	relObj.Target = "theme/theme1.xml"
 	c.Relationship = append(c.Relationship, relObj)
 
+	relObj.Id = "rId12"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+	relObj.Target = "header3.xml"
+	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId13"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+	relObj.Target = "header4.xml"
+	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId14"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+	relObj.Target = "header5.xml"
+	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId15"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+	relObj.Target = "header6.xml"
+	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId16"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+	relObj.Target = "footer3.xml"
+	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId17"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+	relObj.Target = "footer4.xml"
+	c.Relationship = append(c.Relationship, relObj)
 	return c
 }
 
@@ -85,7 +114,7 @@ func (c *relationships) save(dirpath string) error {
 	fpath := path.Join(dirpath, "word", "_rels")
 	os.Mkdir(fpath, os.ModePerm)
 
-	output, err := xml.MarshalIndent(c, "", "  ")
+	output, err := xml.MarshalIndent(c, "", "")
 	if err != nil {
 		return err
 	}

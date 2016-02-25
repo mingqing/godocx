@@ -67,8 +67,21 @@ func (d *Document) AddTable() *Table {
 	return tbl
 }
 
-func (d *Document) SectPr() {
-	// Step 1; create word/_rels/document.xml.rels
+func (d *Document) SectPr(size string, binding, answer bool) {
+	if size == "b4" {
+		d.Body.Content = append(d.Body.Content, newSectPrB4(binding, answer))
+	} else {
+		d.Body.Content = append(d.Body.Content, newSectPr(binding, answer))
+	}
+}
+func (d *Document) MiddleSectPr(size string, binding, answer bool) {
+	p := d.AddParagraph()
+	prp := p.AddProperties()
+	if size == "b4" {
+		prp.Content = append(prp.Content, newSectPrB4(binding, answer))
+	} else {
+		prp.Content = append(prp.Content, newSectPr(binding, answer))
+	}
 }
 
 func (d *Document) Save(dirpath string) error {
@@ -83,9 +96,9 @@ func (d *Document) Save(dirpath string) error {
 	os.Mkdir(path.Join(fpath, "media"), os.ModePerm)
 
 	// sectPr
-	d.Body.Content = append(d.Body.Content, newSectPr())
+	//d.Body.Content = append(d.Body.Content, newSectPr())
 
-	output, err := xml.MarshalIndent(d, "", "  ")
+	output, err := xml.MarshalIndent(d, "", "")
 	if err != nil {
 		return err
 	}
