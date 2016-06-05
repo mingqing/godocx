@@ -70,6 +70,8 @@ func (d *Document) AddTable() *Table {
 func (d *Document) SectPr(size string, binding, answer bool) {
 	if size == "b4" {
 		d.Body.Content = append(d.Body.Content, newSectPrB4(binding, answer))
+	} else if size == "b5" {
+		d.Body.Content = append(d.Body.Content, newSectPrB5(binding, answer))
 	} else {
 		d.Body.Content = append(d.Body.Content, newSectPr(binding, answer))
 	}
@@ -79,6 +81,8 @@ func (d *Document) MiddleSectPr(size string, binding, answer bool) {
 	prp := p.AddProperties()
 	if size == "b4" {
 		prp.Content = append(prp.Content, newSectPrB4(binding, answer))
+	} else if size == "b5" {
+		prp.Content = append(prp.Content, newSectPrB5(binding, answer))
 	} else {
 		prp.Content = append(prp.Content, newSectPr(binding, answer))
 	}

@@ -107,10 +107,41 @@ func newSectPrB4(binding, answer bool) *sectPr {
 		frf2.Id = "rId17"
 	}
 
-	s.PgSz = &pgSz{W: "20639", H: "14572", Code: "9"}
+	s.PgSz = &pgSz{W: "20636", H: "14570", Code: "9"}
 	s.PgMar = &pgMar{Top: "1000", Right: "1797", Bottom: "1000", Left: "2797", Header: "851", Footer: "592", Gutter: "0"}
 	s.Cols = &cols{Num: "2", Sep: "1", Space: "425"}
 
+	s.DocGrid = &docGrid{Type: "lines", LinePitch: "312"}
+	return s
+}
+
+func newSectPrB5(binding, answer bool) *sectPr {
+	s := &sectPr{}
+	hrf1 := &reference{Id: "rId6", Type: "even"}
+	hrf2 := &reference{Id: "rId7", Type: "default"}
+	if binding {
+		hrf1.Id = "rId12"
+		hrf2.Id = "rId13"
+	}
+
+	s.Header = append(s.Header, hrf1)
+	s.Header = append(s.Header, hrf2)
+
+	frf1 := &reference{Id: "rId8", Type: "even"}
+	frf2 := &reference{Id: "rId9", Type: "default"}
+	if answer {
+		frf1.Id = "rId16"
+		frf2.Id = "rId17"
+	}
+
+	s.Footer = append(s.Footer, frf1)
+	s.Footer = append(s.Footer, frf2)
+
+	s.PgSz = &pgSz{W: "10318", H: "14570", Code: "9"}
+	s.PgMar = &pgMar{Top: "1440", Right: "1797", Bottom: "1440", Left: "1797", Header: "851", Footer: "992", Gutter: "0"}
+	s.Cols = &cols{Space: "425"}
+
+	//s.PgNumType = &pgNumType{Start: "1"}
 	s.DocGrid = &docGrid{Type: "lines", LinePitch: "312"}
 	return s
 }
