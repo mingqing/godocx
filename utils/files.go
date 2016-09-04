@@ -1,7 +1,9 @@
-package godocx
+package utils
 
 import (
 	"os"
+
+	"github.com/mingqing/godocx/errors"
 )
 
 func MustExistAndDir(dirPath string) error {
@@ -15,7 +17,7 @@ func MustExistAndDir(dirPath string) error {
 		return err
 	}
 	if !dirStat.IsDir() {
-		return ErrMustDir
+		return errors.ErrMustDir
 	}
 
 	return nil
@@ -31,5 +33,5 @@ func MustNotExistAndCreate(dirPath string) error {
 		}
 	}
 
-	return ErrExistDir
+	return errors.ErrExistDir
 }

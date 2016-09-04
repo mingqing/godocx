@@ -6,26 +6,39 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mingqing/godocx/utils"
 	"github.com/mingqing/godocx/word"
 )
 
-type DocXml struct {
+// Dir为其所在系统目录，Name为文件名
+type DocxXml struct {
 	Dir  string
 	Name string
 }
 
-func NewDocXml(workDir, name string) (*DocXml, error) {
-	d := &DocXml{Dir: workDir, Name: name}
-	if err := MustNotExistAndCreate(d.Dir); err != nil {
+// 生成docx基础结构，由部分xml文件组成
+func NewDocxXml(workDir, name string) (*DocxXml, error) {
+	d := &DocxXml{Dir: workDir, Name: name}
+	if err := utils.MustNotExistAndCreate(d.Dir); err != nil {
 		return nil, err
 	}
 
-	//fmt.Printf("dir: {%s} name: {%s}\n", d.Dir, d.Name)
+	// [Content_Types].xml
+	c := newContentType()
+	c.Save(d.Dir)
 
-	d.ContentType(d.Dir)
-	d.DocProps(d.Dir)
-	d.Rels(d.Dir)
+	// docProps
+	app := newDocPropsApp()
+	app.Save(dirpath)
+	core := newDocPropsCore()
+	core.Save(dirpath)
+
+	// _rels
+	rels := newRelationships()
+	rels.Save(dirpath)
+
 	d.FootEndNotes(d.Dir)
+
 	if err := d.FontTable(d.Dir); err != nil {
 		return d, err
 	}
@@ -38,10 +51,12 @@ func NewDocXml(workDir, name string) (*DocXml, error) {
 	if err := d.TempXml(d.Dir); err != nil {
 		return d, err
 	}
+
 	return d, nil
 }
 
-func (d *DocXml) SaveAndClean() error {
+// 打包为一个docx文件并清理xml临时目录
+func (d *DocxXml) SaveAndClean() error {
 	docx, err := NewDocxFile(d.Name)
 	if err != nil {
 		return err
@@ -56,28 +71,10 @@ func (d *DocXml) SaveAndClean() error {
 	return nil
 }
 
-func (d *DocXml) Document() *word.Document {
+func (d *DocxXml) Document() *word.Document {
 	return word.NewDocument(d.Dir)
 }
-func (d *DocXml) ContentType(dirpath string) error {
-	c := newContentType()
-	return c.Save(dirpath)
-}
-func (d *DocXml) DocProps(dirpath string) error {
-	app := newDocPropsApp()
-	app.Save(dirpath)
-
-	core := newDocPropsCore()
-	core.Save(dirpath)
-
-	return nil
-}
-func (d *DocXml) Rels(dirpath string) error {
-	rels := newRelationships()
-	rels.Save(dirpath)
-	return nil
-}
-func (d *DocXml) FootEndNotes(dirpath string) error {
+func (d *DocxXml) FootEndNotes(dirpath string) error {
 	f := word.NewFootnotes()
 	f.Save(dirpath)
 
@@ -85,11 +82,11 @@ func (d *DocXml) FootEndNotes(dirpath string) error {
 	e.Save(dirpath)
 	return nil
 }
-func (d *DocXml) FontTable(dirpath string) error {
+func (d *DocxXml) FontTable(dirpath string) error {
 	f := word.NewFontTable()
 	return f.Save(dirpath)
 }
-func (d *DocXml) Settings(dirpath string) error {
+func (d *DocxXml) Settings(dirpath string) error {
 	f := word.NewSettings()
 	if err := f.Save(dirpath); err != nil {
 		return err
@@ -101,11 +98,11 @@ func (d *DocXml) Settings(dirpath string) error {
 
 	return nil
 }
-func (d *DocXml) Styles(dirpath string) error {
+func (d *DocxXml) Styles(dirpath string) error {
 	f := word.NewStyles()
 	return f.Save(dirpath)
 }
-func (d *DocXml) TempXml(dirpath string) error {
+func (d *DocxXml) TempXml(dirpath string) error {
 	h := word.NewHeader()
 	h.SaveHeader1(dirpath)
 	h.SaveHeader2(dirpath)
@@ -126,7 +123,7 @@ func (d *DocXml) TempXml(dirpath string) error {
 	return nil
 }
 
-func (d *DocXml) Test() {
+func (d *DocxXml) Test() {
 	document := word.NewDocument(d.Dir)
 	d.Text1(document)
 
@@ -137,7 +134,7 @@ func (d *DocXml) Test() {
 	fmt.Println(xml.Header + string(docByte))
 }
 
-func (d *DocXml) Text1(document *word.Document) {
+func (d *DocxXml) Text1(document *word.Document) {
 	paragh := document.AddParagraph()
 	ppr := paragh.AddProperties()
 	rpr := ppr.AddRunProperties()
@@ -153,7 +150,7 @@ func (d *DocXml) Text1(document *word.Document) {
 	font2.Hint = "eastAsia"
 	run.Text("绝密★启用前")
 }
-func (d *DocXml) Text2(document *word.Document) {
+func (d *DocxXml) Text2(document *word.Document) {
 	paragh := document.AddParagraph()
 	ppr := paragh.AddProperties()
 	ppr.AddAlign("center")
@@ -173,7 +170,7 @@ func (d *DocXml) Text2(document *word.Document) {
 	font2.Hint = "eastAsia"
 	run.Text("2015-2016学年度???学校11月月考卷")
 }
-func (d *DocXml) Text3(document *word.Document) {
+func (d *DocxXml) Text3(document *word.Document) {
 	paragh := document.AddParagraph()
 	ppr := paragh.AddProperties()
 	ppr.AddAlign("center")
@@ -195,7 +192,7 @@ func (d *DocXml) Text3(document *word.Document) {
 	font2.Hint = "eastAsia"
 	run.Text("试卷副标题")
 }
-func (d *DocXml) Text4(document *word.Document) {
+func (d *DocxXml) Text4(document *word.Document) {
 	paragh := document.AddParagraph()
 	ppr := paragh.AddProperties()
 	ppr.AddAlign("center")
@@ -205,7 +202,7 @@ func (d *DocXml) Text4(document *word.Document) {
 	font2.Hint = "eastAsia"
 	run.Text("考试范围：xxx；考试时间：100分钟；命题人：xxx")
 }
-func (d *DocXml) Text5(document *word.Document) {
+func (d *DocxXml) Text5(document *word.Document) {
 	tbl := document.AddTable()
 	pr := tbl.AddProps()
 	pr.AddStyle("a1")
@@ -246,7 +243,7 @@ func (d *DocXml) Text5(document *word.Document) {
 	d.Table1(tr2, "")
 	d.Table1(tr2, "")
 }
-func (d *DocXml) Table1(tr *word.TableRow, text string) {
+func (d *DocxXml) Table1(tr *word.TableRow, text string) {
 	tc := tr.AddCell()
 	tcpr := tc.AddProps()
 	tcpr.Width("1000", "dxa")
@@ -262,13 +259,13 @@ func (d *DocXml) Table1(tr *word.TableRow, text string) {
 		tcPrc.Text(text)
 	}
 }
-func (d *DocXml) Text6(document *word.Document) {
+func (d *DocxXml) Text6(document *word.Document) {
 	d.defaultText(document, "注意事项：")
 	d.defaultText(document, "1．答题前填写好自己的姓名、班级、考号等信息")
 	d.defaultText(document, "2．请将答案正确填写在答题卡上")
 	d.defaultText(document, "")
 }
-func (d *DocXml) defaultText(document *word.Document, text string) {
+func (d *DocxXml) defaultText(document *word.Document, text string) {
 	paragh := document.AddParagraph()
 	run := paragh.AddRunContent()
 	rpr := run.AddRunProperties()
@@ -276,7 +273,7 @@ func (d *DocXml) defaultText(document *word.Document, text string) {
 	font.Hint = "eastAsia"
 	run.Text(text)
 }
-func (d *DocXml) Text7(document *word.Document) {
+func (d *DocxXml) Text7(document *word.Document) {
 	paragh := document.AddParagraph()
 	ppr := paragh.AddProperties()
 	ppr.AddAlign("center")
@@ -302,7 +299,7 @@ func (d *DocXml) Text7(document *word.Document) {
 
 	d.defaultText(document, "")
 }
-func (d *DocXml) Text8(document *word.Document) {
+func (d *DocxXml) Text8(document *word.Document) {
 	tbl := document.AddTable()
 	pr := tbl.AddProps()
 	pr.AddStyle("a7")
@@ -371,7 +368,7 @@ func (d *DocXml) Text8(document *word.Document) {
 	rcpr.Bold(true)
 	tcPrc.Text("一、选择题（题型注释）")
 }
-func (d *DocXml) Table2(tr *word.TableRow, text string) {
+func (d *DocxXml) Table2(tr *word.TableRow, text string) {
 	tc := tr.AddCell()
 	tcpr := tc.AddProps()
 	tcpr.Width("969", "dxa")

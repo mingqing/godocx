@@ -8,18 +8,21 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+
+	"github.com/mingqing/godocx/errors"
+	"github.com/mingqing/godocx/utils"
 )
 
 type DocxFile struct {
 	Name   string
-	Source *zip.ReadCloser
 	Files  []*zipfile
+	Source *zip.ReadCloser
 	//Target io.Writer
 }
 
 func NewDocxFile(name string) (*DocxFile, error) {
 	if name == "" {
-		return nil, ErrEmptyName
+		return nil, errors.ErrEmptyName
 	}
 
 	return &DocxFile{Name: name,
@@ -41,11 +44,11 @@ func NewDocxFileFromPath(filePath string) (*DocxFile, error) {
 // 合并docx文件至路径
 func (d *DocxFile) CombineTo(docxParentDir, saveDir string) error {
 	// 确认saveDir目录存在，以及有相应权限
-	err := MustExistAndDir(docxParentDir)
+	err := utils.MustExistAndDir(docxParentDir)
 	if err != nil {
 		return err
 	}
-	err = MustExistAndDir(saveDir)
+	err = utils.MustExistAndDir(saveDir)
 	if err != nil {
 		return err
 	}
@@ -53,7 +56,7 @@ func (d *DocxFile) CombineTo(docxParentDir, saveDir string) error {
 	filepath.Walk(docxParentDir, func(filePath string, info os.FileInfo, err error) error {
 		formatPath := strings.Replace(filePath, strings.TrimSpace(path.Join(docxParentDir, " ")), "", -1)
 		// 过滤目录
-		if err := MustExistAndDir(filePath); err != nil {
+		if err := utils.MustExistAndDir(filePath); err != nil {
 			if filePath != "./" {
 				fileBody, _ := ioutil.ReadFile(filePath)
 				zf, _ := newZipfile(formatPath, fileBody)
@@ -85,7 +88,7 @@ func (d *DocxFile) CombineTo(docxParentDir, saveDir string) error {
 // 分解docx文件至路径
 func (d *DocxFile) DecomposeTo(saveDir string) error {
 	// 确认saveDir目录存在，以及有相应权限
-	err := MustExistAndDir(saveDir)
+	err := utils.MustExistAndDir(saveDir)
 	if err != nil {
 		return err
 	}

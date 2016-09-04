@@ -1,4 +1,4 @@
-package godocx
+package errors
 
 import (
 	"errors"
