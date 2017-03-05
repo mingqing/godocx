@@ -19,6 +19,13 @@ type pPrSpacing struct {
 	LineRule string   `xml:"w:lineRule,attr,omitempty"`
 }
 
+// numPr
+type wNumPr struct {
+	XMLName xml.Name    `xml:"w:numPr"`
+	Ilvl    *settingVal `xml:"w:ilvl"`
+	NumId   *settingVal `xml:"w:numId"`
+}
+
 func NewParagraphProperties() *ParagraphProperties {
 	return &ParagraphProperties{Content: make([]interface{}, 0)}
 }
@@ -39,4 +46,10 @@ func (p *ParagraphProperties) AddSpacing(line string) *ParagraphProperties {
 	t := &pPrSpacing{Line: line, LineRule: "auto"}
 	p.Content = append(p.Content, t)
 	return p
+}
+
+func (p *ParagraphProperties) AddNumPr(ilvl, numId string) *wNumPr {
+	t := &wNumPr{Ilvl: &settingVal{Val: ilvl}, NumId: &settingVal{Val: numId}}
+	p.Content = append(p.Content, t)
+	return t
 }
