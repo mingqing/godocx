@@ -123,6 +123,9 @@ func (d *DocXml) TempXml(dirpath string) error {
 	t := word.NewTheme()
 	t.SaveTheme1(dirpath)
 
+	n := word.NewNumberingXml()
+	n.Save(dirpath)
+
 	return nil
 }
 

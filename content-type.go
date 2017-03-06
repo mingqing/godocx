@@ -62,6 +62,7 @@ func newContentType() *contentType {
 	overrideValues["/word/header6.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"
 	overrideValues["/word/footer3.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
 	overrideValues["/word/footer4.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"
+	overrideValues["/word/numbering.xml"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"
 
 	overrideObj := typeOverride{}
 	for key, value := range overrideValues {

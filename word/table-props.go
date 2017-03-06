@@ -12,6 +12,7 @@ type TableProperties struct {
 	Borders *TableBorders
 	Layout  *TableLayout
 	Look    *TableLook
+	Ind     *TableInd
 }
 
 func (t *TableProperties) AddStyle(val string) *TableStyle {
@@ -50,4 +51,9 @@ func (t *TableProperties) AddLayout(val string) *TableLayout {
 func (t *TableProperties) AddLook(val string) *TableLook {
 	t.Look = &TableLook{Val: val}
 	return t.Look
+}
+
+func (t *TableProperties) AddInd(val, typ string) *TableInd {
+	t.Ind = &TableInd{Val: val, Type: typ}
+	return t.Ind
 }

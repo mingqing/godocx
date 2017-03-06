@@ -107,6 +107,11 @@ func newRelationships() *relationships {
 	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
 	relObj.Target = "footer4.xml"
 	c.Relationship = append(c.Relationship, relObj)
+
+	relObj.Id = "rId18"
+	relObj.Type = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering"
+	relObj.Target = "numbering.xml"
+	c.Relationship = append(c.Relationship, relObj)
 	return c
 }
 
