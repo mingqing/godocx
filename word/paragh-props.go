@@ -26,6 +26,14 @@ type wNumPr struct {
 	NumId   *settingVal `xml:"w:numId"`
 }
 
+// Indentation
+type wIndentation struct {
+	XMLName xml.Name `xml:"w:ind"`
+	Left    string   `xml:"w:left,attr,omitempty"`
+	Right   string   `xml:"w:right,attr,omitempty"`
+	Hanging string   `xml:"w:hanging,attr,omitempty"`
+}
+
 func NewParagraphProperties() *ParagraphProperties {
 	return &ParagraphProperties{Content: make([]interface{}, 0)}
 }
@@ -50,6 +58,22 @@ func (p *ParagraphProperties) AddSpacing(line string) *ParagraphProperties {
 
 func (p *ParagraphProperties) AddNumPr(ilvl, numId string) *wNumPr {
 	t := &wNumPr{Ilvl: &settingVal{Val: ilvl}, NumId: &settingVal{Val: numId}}
+	p.Content = append(p.Content, t)
+	return t
+}
+
+func (p *ParagraphProperties) AddIndentation(left, right, hanging string) *wIndentation {
+	t := &wIndentation{}
+	if left != "0" {
+		t.Left = left
+	}
+	if right != "0" {
+		t.Right = right
+	}
+	if hanging != "0" {
+		t.Hanging = hanging
+	}
+
 	p.Content = append(p.Content, t)
 	return t
 }
